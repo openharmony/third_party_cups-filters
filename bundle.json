@@ -9,9 +9,9 @@
     },
     "dirs": {},
     "scripts": {},
-    "licensePath": "LICENSE.md",
+    "licensePath": "COPYING",
     "readmePath": {
-        "en": ""
+        "en": "README"
     },
     "component": {
         "name": "cups-filters",
