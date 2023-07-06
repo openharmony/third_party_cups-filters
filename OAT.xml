@@ -73,7 +73,6 @@ Note:If the text contains special characters|please escape them according to the
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
 				<filteritem type="filename" name="ChangeLog" desc="changelog"/>
-               
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
             </filefilter>
@@ -105,7 +104,6 @@ Note:If the text contains special characters|please escape them according to the
 				<filteritem type="filepath" name="data/form_english_in.odt" desc="odt file"/>
 				<filteritem type="filepath" name="data/form_russian_in.odt" desc="odt file"/>
             </filefilter>
-
         </filefilterlist>
         <licensematcherlist>
 			<licensematcher name="MIT" desc="">
@@ -133,7 +131,7 @@ Note:If the text contains special characters|please escape them according to the
                 * holders shall not be used in advertising or otherwise to promote the     *
                 * sale, use or other dealings in this Software without prior written       *
                 * authorization.                                                           *
-                 " desc=""/>
+                " desc=""/>
             </licensematcher>
 			<licensematcher name="GPL-2.0+" desc="">
                 <licensetext name="" desc=""/>
