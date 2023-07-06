@@ -1150,7 +1150,7 @@ It is for the following use cases:
 
 - Using text-only printers, like line printers or daisy-wheel
   printers. Note that only text can get printed in the way the printer
-  is designed. No support for graphics printing tricks like ASCII art
+  is designed. No support for graphics printing tricks like ASCII 
   or printing pixels with the period character.
 
 - Fast and less resource-consuming text printing with dot-matrix
