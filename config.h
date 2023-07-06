@@ -28,15 +28,14 @@
 #define HAVE_LDAP
 #define HAVE_LDAP_REBIND_PROC
 #define HAVE_LDAP_SSL
-#define HAVE_LDAP_SSL_H
 #define HAVE_LIBJPEG
 #define HAVE_LIBPNG
 #define HAVE_LIBZ
 #define HAVE_LONG_LONG
 #define HAVE_OPENLDAP
 #define HAVE_OPEN_MEMSTREAM 1
-#define HAVE_POPPLER_PDFTOPS_WITH_ORIGPAGESIZES 
-#define HAVE_POPPLER_PDFTOPS_WITH_RESOLUTION 
+#define HAVE_POPPLER_PDFTOPS_WITH_ORIGPAGESIZES
+#define HAVE_POPPLER_PDFTOPS_WITH_RESOLUTION
 #define HAVE_SIGACTION 1
 #define HAVE_STDINT_H 1
 #define HAVE_STDIO_H 1
@@ -53,7 +52,7 @@
 #define HAVE_WAIT3 1
 #define HAVE_WAITPID 1
 #define HAVE_ZLIB_H 1
-#define ICONV_CONST 
+#define ICONV_CONST
 #define LT_OBJDIR ".libs/"
 #define PACKAGE "cups-filters"
 #define PACKAGE_BUGREPORT ""
@@ -66,7 +65,6 @@
 #define SHELL "/bin/bash"
 #define STDC_HEADERS 1
 #define VERSION "1.28.17"
-
 
 #ifdef HAVE_LONG_LONG
 #  define CUPS_LLFMT   "%lld"
