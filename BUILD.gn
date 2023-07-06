@@ -19,176 +19,176 @@ CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
 
-group("third_party_cupsfilters"){
-    deps = [
-        ":cupsfilters",
-        ":imagetoraster",
-        ":cupsfilters.types",
-        ":cupsfilters.convs",
-        ":turbojpeg"
-    ]
+group("third_party_cupsfilters") {
+  deps = [
+    ":cupsfilters",
+    ":cupsfilters.convs",
+    ":cupsfilters.types",
+    ":imagetoraster",
+    ":turbojpeg",
+  ]
 }
 
 config("cups_filters_config") {
-    include_dirs = [
-        ".",
-        "$CUPS_CODE_DIR",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
-        "$CUPS_FILTERS_CODE_DIR/filter/"
-    ]
+  include_dirs = [
+    ".",
+    "$CUPS_CODE_DIR",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
+    "$CUPS_FILTERS_CODE_DIR/filter/",
+  ]
 
-    defines = cups_defines
+  defines = cups_defines
 
-    cflags = [
-        "-D_PPD_DEPRECATED=",
-        "-Wextra",
-        "-Wall",
-        "-Wno-unused-parameter",
-        "-Wno-unused-function",
-        "-Wno-unused-variable",
-        "-Wno-unused-value",
-        "-Wno-sign-compare",
-        "-Wno-missing-field-initializers",
+  cflags = [
+    "-D_PPD_DEPRECATED=",
+    "-Wextra",
+    "-Wall",
+    "-Wno-unused-parameter",
+    "-Wno-unused-function",
+    "-Wno-unused-variable",
+    "-Wno-unused-value",
+    "-Wno-sign-compare",
+    "-Wno-missing-field-initializers",
 
-        "-Wno-strlcpy-strlcat-size",
-        "-Wtautological-pointer-compare",
-        "-Wimplicit-fallthrough",
-        "-Wno-implicit-function-declaration",
-        "-w"
-    ]
+    "-Wno-strlcpy-strlcat-size",
+    "-Wtautological-pointer-compare",
+    "-Wimplicit-fallthrough",
+    "-Wno-implicit-function-declaration",
+    "-w",
+  ]
 }
 
 ohos_shared_library("cupsfilters") {
-    sources = [
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/attr.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/check.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/cmyk.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/colord.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/colormanager.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/dither.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/pdftoippprinter.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-bmp.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-colorspace.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-gif.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-jpeg.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-photocd.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-pix.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-png.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-pnm.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sgi.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sgilib.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sun.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-tiff.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-zoom.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/ipp.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/lut.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/pack.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/ppdgenerator.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/raster.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/rgb.c",
-        "$CUPS_FILTERS_CODE_DIR/cupsfilters/srgb.c",
-    ]
+  sources = [
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/attr.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/check.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/cmyk.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/colord.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/colormanager.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/dither.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-bmp.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-colorspace.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-gif.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-jpeg.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-photocd.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-pix.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-png.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-pnm.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sgi.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sgilib.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-sun.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-tiff.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image-zoom.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/image.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/ipp.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/lut.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/pack.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/pdftoippprinter.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/ppdgenerator.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/raster.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/rgb.c",
+    "$CUPS_FILTERS_CODE_DIR/cupsfilters/srgb.c",
+  ]
 
-    public_configs = [ ":cups_filters_config" ]
+  public_configs = [ ":cups_filters_config" ]
 
-    deps = [
-        "//third_party/cups:cups",
-        "//third_party/libjpeg-turbo:turbojpeg",
-        "//third_party/libpng:libpng",
-        "//third_party/zlib:libz"
-    ]
+  deps = [
+    "//third_party/cups:cups",
+    "//third_party/libjpeg-turbo:turbojpeg",
+    "//third_party/libpng:libpng",
+    "//third_party/zlib:libz",
+  ]
 
-    install_enable = true
-    subsystem_name = "$SUBSYSTEM_NAME"
-    part_name = "$PART_NAME"
+  install_enable = true
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
 }
 
 ohos_executable("imagetoraster") {
-    sources = [
-        "$CUPS_FILTERS_CODE_DIR/filter/common.c",
-        "$CUPS_FILTERS_CODE_DIR/filter/imagetoraster.c",
-    ]
+  sources = [
+    "$CUPS_FILTERS_CODE_DIR/filter/common.c",
+    "$CUPS_FILTERS_CODE_DIR/filter/imagetoraster.c",
+  ]
 
-    deps = [
-        "//third_party/cups:cups",
-        "//third_party/cups-filters:cupsfilters",
-    ]
+  deps = [
+    "//third_party/cups:cups",
+    "//third_party/cups-filters:cupsfilters",
+  ]
 
-    public_configs = [ ":cups_filters_config" ]
+  public_configs = [ ":cups_filters_config" ]
 
-    module_install_dir = "$cups_serverbin_dir/filter"
-    install_enable = true
-    subsystem_name = "$SUBSYSTEM_NAME"
-    part_name = "$PART_NAME"
+  module_install_dir = "$cups_serverbin_dir/filter"
+  install_enable = true
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
 }
 
 ohos_prebuilt_etc("cupsfilters.convs") {
-    exec_script("generate_cupsfilters_convs.py")
-    source = "mime/cupsfilters.convs"
-    relative_install_dir = "cups/share/mime"
-    subsystem_name = "$SUBSYSTEM_NAME"
-    part_name = "$PART_NAME"
+  exec_script("generate_cupsfilters_convs.py")
+  source = "mime/cupsfilters.convs"
+  relative_install_dir = "cups/share/mime"
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
 }
 
 ohos_prebuilt_etc("cupsfilters.types") {
-    source = "mime/cupsfilters.types"
-    relative_install_dir = "cups/share/mime"
-    subsystem_name = "$SUBSYSTEM_NAME"
-    part_name = "$PART_NAME"
+  source = "mime/cupsfilters.types"
+  relative_install_dir = "cups/share/mime"
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
 }
 
 #start of jpeg
 JPEG_CODE_ROOT = "//third_party/libjpeg-turbo"
 jpeg_sources = [
-    "$JPEG_CODE_ROOT/jcapimin.c",
-    "$JPEG_CODE_ROOT/jcapistd.c",
-    "$JPEG_CODE_ROOT/jccoefct.c",
-    "$JPEG_CODE_ROOT/jccolor.c",
-    "$JPEG_CODE_ROOT/jcdctmgr.c",
-    "$JPEG_CODE_ROOT/jchuff.c",
-    "$JPEG_CODE_ROOT/jcicc.c",
-    "$JPEG_CODE_ROOT/jcinit.c",
-    "$JPEG_CODE_ROOT/jcmainct.c",
-    "$JPEG_CODE_ROOT/jcmarker.c",
-    "$JPEG_CODE_ROOT/jcmaster.c",
-    "$JPEG_CODE_ROOT/jcomapi.c",
-    "$JPEG_CODE_ROOT/jcparam.c",
-    "$JPEG_CODE_ROOT/jcphuff.c",
-    "$JPEG_CODE_ROOT/jcprepct.c",
-    "$JPEG_CODE_ROOT/jcsample.c",
-    "$JPEG_CODE_ROOT/jctrans.c",
-    "$JPEG_CODE_ROOT/jdapimin.c",
-    "$JPEG_CODE_ROOT/jdapistd.c",
-    "$JPEG_CODE_ROOT/jdatadst.c",
-    "$JPEG_CODE_ROOT/jdatasrc.c",
-    "$JPEG_CODE_ROOT/jdcoefct.c",
-    "$JPEG_CODE_ROOT/jdcolor.c",
-    "$JPEG_CODE_ROOT/jddctmgr.c",
-    "$JPEG_CODE_ROOT/jdhuff.c",
-    "$JPEG_CODE_ROOT/jdicc.c",
-    "$JPEG_CODE_ROOT/jdinput.c",
-    "$JPEG_CODE_ROOT/jdmainct.c",
-    "$JPEG_CODE_ROOT/jdmarker.c",
-    "$JPEG_CODE_ROOT/jdmaster.c",
-    "$JPEG_CODE_ROOT/jdmerge.c",
-    "$JPEG_CODE_ROOT/jdphuff.c",
-    "$JPEG_CODE_ROOT/jdpostct.c",
-    "$JPEG_CODE_ROOT/jdsample.c",
-    "$JPEG_CODE_ROOT/jdtrans.c",
-    "$JPEG_CODE_ROOT/jerror.c",
-    "$JPEG_CODE_ROOT/jfdctflt.c",
-    "$JPEG_CODE_ROOT/jfdctfst.c",
-    "$JPEG_CODE_ROOT/jfdctint.c",
-    "$JPEG_CODE_ROOT/jidctflt.c",
-    "$JPEG_CODE_ROOT/jidctfst.c",
-    "$JPEG_CODE_ROOT/jidctint.c",
-    "$JPEG_CODE_ROOT/jidctred.c",
-    "$JPEG_CODE_ROOT/jmemmgr.c",
-    "$JPEG_CODE_ROOT/jmemnobs.c",
-    "$JPEG_CODE_ROOT/jquant1.c",
-    "$JPEG_CODE_ROOT/jquant2.c",
-    "$JPEG_CODE_ROOT/jutils.c",
+  "$JPEG_CODE_ROOT/jcapimin.c",
+  "$JPEG_CODE_ROOT/jcapistd.c",
+  "$JPEG_CODE_ROOT/jccoefct.c",
+  "$JPEG_CODE_ROOT/jccolor.c",
+  "$JPEG_CODE_ROOT/jcdctmgr.c",
+  "$JPEG_CODE_ROOT/jchuff.c",
+  "$JPEG_CODE_ROOT/jcicc.c",
+  "$JPEG_CODE_ROOT/jcinit.c",
+  "$JPEG_CODE_ROOT/jcmainct.c",
+  "$JPEG_CODE_ROOT/jcmarker.c",
+  "$JPEG_CODE_ROOT/jcmaster.c",
+  "$JPEG_CODE_ROOT/jcomapi.c",
+  "$JPEG_CODE_ROOT/jcparam.c",
+  "$JPEG_CODE_ROOT/jcphuff.c",
+  "$JPEG_CODE_ROOT/jcprepct.c",
+  "$JPEG_CODE_ROOT/jcsample.c",
+  "$JPEG_CODE_ROOT/jctrans.c",
+  "$JPEG_CODE_ROOT/jdapimin.c",
+  "$JPEG_CODE_ROOT/jdapistd.c",
+  "$JPEG_CODE_ROOT/jdatadst.c",
+  "$JPEG_CODE_ROOT/jdatasrc.c",
+  "$JPEG_CODE_ROOT/jdcoefct.c",
+  "$JPEG_CODE_ROOT/jdcolor.c",
+  "$JPEG_CODE_ROOT/jddctmgr.c",
+  "$JPEG_CODE_ROOT/jdhuff.c",
+  "$JPEG_CODE_ROOT/jdicc.c",
+  "$JPEG_CODE_ROOT/jdinput.c",
+  "$JPEG_CODE_ROOT/jdmainct.c",
+  "$JPEG_CODE_ROOT/jdmarker.c",
+  "$JPEG_CODE_ROOT/jdmaster.c",
+  "$JPEG_CODE_ROOT/jdmerge.c",
+  "$JPEG_CODE_ROOT/jdphuff.c",
+  "$JPEG_CODE_ROOT/jdpostct.c",
+  "$JPEG_CODE_ROOT/jdsample.c",
+  "$JPEG_CODE_ROOT/jdtrans.c",
+  "$JPEG_CODE_ROOT/jerror.c",
+  "$JPEG_CODE_ROOT/jfdctflt.c",
+  "$JPEG_CODE_ROOT/jfdctfst.c",
+  "$JPEG_CODE_ROOT/jfdctint.c",
+  "$JPEG_CODE_ROOT/jidctflt.c",
+  "$JPEG_CODE_ROOT/jidctfst.c",
+  "$JPEG_CODE_ROOT/jidctint.c",
+  "$JPEG_CODE_ROOT/jidctred.c",
+  "$JPEG_CODE_ROOT/jmemmgr.c",
+  "$JPEG_CODE_ROOT/jmemnobs.c",
+  "$JPEG_CODE_ROOT/jquant1.c",
+  "$JPEG_CODE_ROOT/jquant2.c",
+  "$JPEG_CODE_ROOT/jutils.c",
 ]
 
 include_dirs = []
@@ -247,36 +247,36 @@ if (mkernel || is_win) {
 }
 
 jpeg_sources += [
-# enable arith codec
-    "$JPEG_CODE_ROOT/jaricom.c",
-    "$JPEG_CODE_ROOT/jcarith.c",
-    "$JPEG_CODE_ROOT/jdarith.c",
-    "$JPEG_CODE_ROOT/jdatadst-tj.c",
-    "$JPEG_CODE_ROOT/jdatasrc-tj.c",
-    "$JPEG_CODE_ROOT/rdbmp.c",
-    "$JPEG_CODE_ROOT/rdppm.c",
-    "$JPEG_CODE_ROOT/transupp.c",
+  # enable arith codec
+  "$JPEG_CODE_ROOT/jaricom.c",
+  "$JPEG_CODE_ROOT/jcarith.c",
+  "$JPEG_CODE_ROOT/jdarith.c",
+  "$JPEG_CODE_ROOT/jdatadst-tj.c",
+  "$JPEG_CODE_ROOT/jdatasrc-tj.c",
+  "$JPEG_CODE_ROOT/rdbmp.c",
+  "$JPEG_CODE_ROOT/rdppm.c",
+  "$JPEG_CODE_ROOT/transupp.c",
 
-    # enable turbo
-    "$JPEG_CODE_ROOT/turbojpeg.c",
-    "$JPEG_CODE_ROOT/wrbmp.c",
-    "$JPEG_CODE_ROOT/wrppm.c",
+  # enable turbo
+  "$JPEG_CODE_ROOT/turbojpeg.c",
+  "$JPEG_CODE_ROOT/wrbmp.c",
+  "$JPEG_CODE_ROOT/wrppm.c",
 ]
 define_config += [
-    "C_ARITH_CODING_SUPPORTED=1",  #Support arithmetic encoding
-    "D_ARITH_CODING_SUPPORTED=1",  #Support arithmetic decoding
-    "BMP_SUPPORTED=1",  #Support arithmetic decoding
-    "PPM_SUPPORTED=1",  #Support arithmetic decoding
+  "C_ARITH_CODING_SUPPORTED=1",  #Support arithmetic encoding
+  "D_ARITH_CODING_SUPPORTED=1",  #Support arithmetic decoding
+  "BMP_SUPPORTED=1",  #Support arithmetic decoding
+  "PPM_SUPPORTED=1",  #Support arithmetic decoding
 ]
 
 config("turbojpeg_config") {
-    include_dirs += [ "//third_party/libjpeg-turbo" ]
-    defines = define_config
+  include_dirs += [ "//third_party/libjpeg-turbo" ]
+  defines = define_config
 }
 
 ohos_shared_library("turbojpeg") {
-    sources = jpeg_sources
-    public_configs = [ ":turbojpeg_config" ]
-    subsystem_name = "$SUBSYSTEM_NAME"
-    part_name = "$PART_NAME"
+  sources = jpeg_sources
+  public_configs = [ ":turbojpeg_config" ]
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
 }
