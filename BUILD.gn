@@ -40,7 +40,7 @@ config("cups_filters_config") {
     defines = cups_defines
 
     cflags = [
-        "-D_PPD_DEPRECATED",
+        "-D_PPD_DEPRECATED=",
         "-Wextra",
         "-Wall",
         "-Wno-unused-parameter",
@@ -48,7 +48,7 @@ config("cups_filters_config") {
         "-Wno-unused-variable",
         "-Wno-unused-value",
         "-Wno-sign-compare",
-        "-Wno-missing-filed-initializers",
+        "-Wno-missing-field-initializers",
 
         "-Wno-strlcpy-strlcat-size",
         "-Wtautological-pointer-compare",
