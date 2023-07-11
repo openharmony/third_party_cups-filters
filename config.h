@@ -83,7 +83,13 @@
 #define VERSION "1.28.17"
 #define CUPS_LLFMT   "%lld"
 #define CUPS_LLCAST  (long long)
-#define CUPS_RAND() rand()
-#define CUPS_SRAND(v) srand(v)
+
+#ifdef HAVE_ARC4RANDOM
+#  define CUPS_RAND() arc4random()
+#  define CUPS_SRAND(v) arc4random_stir()
+#else
+#  define CUPS_RAND() rand()
+#  define CUPS_SRAND(v) srand(v)
+#endif /* HAVE_ARC4RANDOM */
 
 #endif /* CONFIG_H */
