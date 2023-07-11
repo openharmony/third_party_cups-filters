@@ -81,27 +81,9 @@
 #define SHELL "/bin/bash"
 #define STDC_HEADERS 1
 #define VERSION "1.28.17"
-
-#ifdef HAVE_LONG_LONG
-#  define CUPS_LLFMT   "%lld"
-#  define CUPS_LLCAST  (long long)
-#else
-#  define CUPS_LLFMT   "%ld"
-#  define CUPS_LLCAST  (long)
-#endif /* HAVE_LONG_LONG */
-
-#ifdef HAVE_ARC4RANDOM
-#  define CUPS_RAND() arc4random()
-#  define CUPS_SRAND(v) arc4random_stir()
-#elif defined(HAVE_RANDOM)
-#  define CUPS_RAND() random()
-#  define CUPS_SRAND(v) srandom(v)
-#elif defined(HAVE_LRAND48)
-#  define CUPS_RAND() lrand48()
-#  define CUPS_SRAND(v) srand48(v)
-#else
-#  define CUPS_RAND() rand()
-#  define CUPS_SRAND(v) srand(v)
-#endif /* HAVE_ARC4RANDOM */
+#define CUPS_LLFMT   "%lld"
+#define CUPS_LLCAST  (long long)
+#define CUPS_RAND() rand()
+#define CUPS_SRAND(v) srand(v)
 
 #endif /* CONFIG_H */
