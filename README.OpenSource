@@ -6,6 +6,6 @@
         "Version Number": "1.28.17",
         "Owner": "dongzhengkuan@huawei.com",
         "Upstream URL": "https://github.com/OpenPrinting/cups-filter/releases/download/1.28.17/cups-filter-1.28.17.tar.gz",
-        "Description": "CUPS is a standards-based, open source printing system developed by Apple Inc. for Mac OS® X and other UNIX®-like operating systems.  CUPS uses the Internet Printing Protocol ("IPP") and provides System V and Berkeley command-line interfaces, a web interface, and a C API to manage printers and print jobs."
+        "Description": "This project provides backends, filters, and other software that was once part of the core CUPS distribution"
     }
 ]
