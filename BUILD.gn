@@ -124,7 +124,7 @@ ohos_executable("imagetoraster") {
 }
 
 ohos_prebuilt_etc("cupsfilters.convs") {
-  exec_script("generate_cupsfilters_convs.py")
+  exec_script(rebase_path("//third_party/cups-filters/generate_cupsfilters_convs.py"), [rebase_path("//third_party/cups-filters/mime")])
   source = "mime/cupsfilters.convs"
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
