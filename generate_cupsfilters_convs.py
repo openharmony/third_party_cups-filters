@@ -17,7 +17,7 @@ import sys
 import os
 import shutil
 
-def copy_file(dir)
+def copy_file(dir):
     src_name = '/cupsfilters.convs.in'
     dest_name = '/cupsfilters.convs'
     src_file = dir + src_name
