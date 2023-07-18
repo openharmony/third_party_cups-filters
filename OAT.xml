@@ -58,21 +58,57 @@ Note:If the text contains special characters|please escape them according to the
         <licensefile>COPYING</licensefile>
         <policylist>
             <policy name="projectPolicy" desc="">
-				<!--policyitem type="license" name="*" path=".*" desc="" />
-				<policyitem type="copyright" name="*" path=".*" desc="" /-->
-				<policyitem type="license" name="GPL-2.0+" path=".*" desc="" />
-				<policyitem type="license" name="MIT" path=".*" desc="" />
-				<policyitem type="license" name="GPLStyleLicense" path=".*" desc="" />
-				<policyitem type="license" name="GPL-3.0+" path=".*" desc="" />
-				<policyitem type="license" name="BSD-4-Clause" path="filter/strcasestr.c" desc="" />
-				<policyitem type="license" name="BSD-2-Clause" path="cupsfilters/kmdevices.h" desc="" />
-				<policyitem type="license" name="FSFAP" path="m4/.*" desc="" />
 				<policyitem type="copyright" name="*" path=".*" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="" />
+				<policyitem type="license" name="MIT" path="cupsfilters/colord.c" desc="MIT license" />
+				<policyitem type="license" name="MIT" path="cupsfilters/colormanager.h" desc="MIT license" />
+				<policyitem type="license" name="MIT" path="cupsfilters/colord.h" desc="MIT license" />
+				<policyitem type="license" name="MIT" path="cupsfilters/colormanager.c" desc="MIT license" />
+				<policyitem type="license" name="APACHE 2.0" path=".*" desc="APACHE 2.0 license" />
+				<policyitem type="license" name="LGPLStyleLicense" path="cupsfilters/ipp.c" desc="LGPLStyleLicense 2.0 license" />
+				<policyitem type="license" name="LGPLStyleLicense" path="cupsfilters/ipp.h" desc="LGPLStyleLicense 2.0 license" />
             </policy>
         </policylist>
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
 				<filteritem type="filename" name="ChangeLog" desc="changelog"/>
+				<filteritem type="filename" name="COPYING" desc="COPYING file"/>
+				<filteritem type="filename" name="AUTHORS" desc="AUTHORS info"/>
+				<filteritem type="filename" name="INSTALL" desc="INSTALL file"/>
+				<filteritem type="filename" name="Makefile.am" desc="未参与编译"/>
+				<filteritem type="filepath" name="backend/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="banners/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="charset/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="data/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="drv/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="fontembed/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="m4/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="mime/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="ppd/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="scripting/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="utils/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/braille/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/foomatic-rip/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/pdftopdf/*" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/unirast.h" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/urftopdf.cpp*" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/rastertopdf.cpp" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/rastertops.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/getline.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/gstopdf" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/gstopxl" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/rastertopclm" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/strcasestr.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/imagetops" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/banner.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/banner.h" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/bannertopdf.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/pdf.cxx" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/pdf.h" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/mupdftoraster.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/pdftoraster.cxx" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/gstoraster.c" desc="未参与编译"/>
+				<filteritem type="filepath" name="filter/texttops" desc="未参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/kmdevices.h" desc="未参与编译"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
             </filefilter>
@@ -85,72 +121,11 @@ Note:If the text contains special characters|please escape them according to the
             <filefilter name="readmeOpenSourcefileNamePolicyFilter" desc="Filters for README.OpenSource file policies">
             </filefilter>
             <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
-				<filteritem type="filename" name="AUTHORS" desc="authorinfo file"/>
-				<filteritem type="filepath" name="data/confidential.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/unclassified.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/default-testpage.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/default.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/form_english.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/form_russian.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/secret.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/standard.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/classified.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="data/topsecret.pdf" desc="pdf file"/>
-				<filteritem type="filepath" name="drv/cupsfilters.drv" desc="drv file"/>
-				<filteritem type="filepath" name="drv/generic-brf.drv" desc="drv file"/>
-				<filteritem type="filepath" name="drv/generic-ubrl.drv" desc="drv file"/>
-				<filteritem type="filepath" name="drv/indexv3.drv" desc="drv file"/>
-				<filteritem type="filepath" name="drv/indexv4.drv" desc="drv file"/>
-				<filteritem type="filepath" name="data/form_english_in.odt" desc="odt file"/>
-				<filteritem type="filepath" name="data/form_russian_in.odt" desc="odt file"/>
             </filefilter>
         </filefilterlist>
         <licensematcherlist>
-			<licensematcher name="MIT" desc="">
-                <licensetext name="
-                * Permission is hereby granted, free of charge, to any person obtaining a  *
-                * copy of this software and associated documentation files (the            *
-                * &quot;Software&quot;), to deal in the Software without restriction, including      *
-                * without limitation the rights to use, copy, modify, merge, publish,      *
-                * distribute, distribute with modifications, sublicense, and/or sell       *
-                * copies of the Software, and to permit persons to whom the Software is    *
-                * furnished to do so, subject to the following conditions:                 *
-                *                                                                          *
-                * The above copyright notice and this permission notice shall be included  *
-                * in all copies or substantial portions of the Software.                   *
-                *                                                                          *
-                * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS  *
-                * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               *
-                * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   *
-                * IN NO EVENT SHALL THE ABOVE COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,   *
-                * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR    *
-                * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR    *
-                * THE USE OR OTHER DEALINGS IN THE SOFTWARE.                               *
-                *                                                                          *
-                * Except as contained in this notice, the name(s) of the above copyright   *
-                * holders shall not be used in advertising or otherwise to promote the     *
-                * sale, use or other dealings in this Software without prior written       *
-                * authorization.                                                           *
-                " desc=""/>
-            </licensematcher>
-			<licensematcher name="GPL-2.0+" desc="">
+			<licensematcher name="APACHE 2.0" desc="">
                 <licensetext name="" desc=""/>
-            </licensematcher>
-			<licensematcher name="GPL-3.0+" desc="">
-                <licensetext name="
-				* This program is free software: you can redistribute it and/or modify
-				*  it under the terms of the GNU General Public License as published by
-				*  the Free Software Foundation, either version 3 of the License, or
-				*  (at your option) any later version.
-				" desc=""/>
-            </licensematcher>
-			<licensematcher name="GPLStyleLicense" desc="">
-                <licensetext name="
-				# Released under GPL 2 or later
-				" desc=""/>
-				<licensetext name="
-				This file is published under the GNU General Public License
-				" desc=""/>
             </licensematcher>
         </licensematcherlist>
     </oatconfig>
