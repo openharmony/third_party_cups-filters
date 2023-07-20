@@ -1,9 +1,9 @@
 # 三方开源软件CUPS-Filters
 ## CUPS-Filters简介
-CUPS-Filters是CUPS（Common Unix Printing System）的一部分，它包含了丰富法文件转化过滤器，其中最常用的是“imagetoraster”, 该过滤器可以将图片文件转换为raster文件传给打印机执行打印。
+CUPS-Filters是CUPS（Common Unix Printing System）的一部分，它包含了丰富的文件转化过滤器，其中最常用的是“imagetoraster”, 该过滤器可以将图片文件转换为raster文件传给打印机执行打印。
 CUPS-Filters还提供了一些其它功能，例如打印机状态监控和报告等，跟CUPS一样，支持IPP（Internet Printing Protocal）、LPD（Line Printer Daemon Protocol）、AppSocket等打印协议
 
-您也可以通过[CUPS-Filters官网主页](https://github.com/OpenPrinting/cups-filters)了解更多关于CUPS项目的信息。
+您也可以通过[CUPS-Filters官网主页](https://github.com/OpenPrinting/cups-filters)了解更多关于CUPS-Filters项目的信息。
 
 ## 引入背景简述
 在OpenHarmony系统中，CUPS开源库只支持PostScript、Raster等少见的文件格式打印；为了适配图片和pdf等文件打印，需要引入CUPS-Filters来完善文件转化功能。
@@ -29,7 +29,7 @@ CUPS-Filters还提供了一些其它功能，例如打印机状态监控和报�
 ```
 
 ## 如何使用
-CUPS-Filters无法单独使用，编译出来的imagetoraster等文件转换过滤器文件需要配合CUPS使用；CUPS接口详细使用方式见[third_party_cups](https://gitee.com/openharmony/third_party_cups)
+CUPS-Filters无法单独使用，编译出来的imagetoraster等文件转换过滤器文件需要配合CUPS使用；详细使用方式参考[CUPS](https://gitee.com/openharmony/third_party_cups)
 
 ## 相关仓
 [third_party_cups](https://gitee.com/openharmony/third_party_cups)
