@@ -29,7 +29,7 @@ CUPS-Filters还提供了一些其它功能，例如打印机状态监控和报�
 ```
 
 ## 如何使用
-CUPS-Filters无法单独使用，编译出来的imagetoraster等文件转换过滤器文件需要配合CUPS使用；详细使用方式参考[CUPS](https://gitee.com/openharmony/third_party_cups)
+CUPS-Filters无法单独使用，编译出来的imagetoraster等文件转换过滤器需要配合CUPS开源库一起使用；详细使用方式参考[社区CUPS地址](https://gitee.com/openharmony/third_party_cups)
 
 ## 相关仓
 [third_party_cups](https://gitee.com/openharmony/third_party_cups)
