@@ -58,75 +58,120 @@ Note:If the text contains special characters|please escape them according to the
         <licensefile>COPYING</licensefile>
         <policylist>
             <policy name="projectPolicy" desc="">
-				<policyitem type="copyright" name="*" path=".*" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="" />
-				<policyitem type="license" name="MIT" path="cupsfilters/colord.c" desc="MIT license" />
-				<policyitem type="license" name="MIT" path="cupsfilters/colormanager.h" desc="MIT license" />
-				<policyitem type="license" name="MIT" path="cupsfilters/colord.h" desc="MIT license" />
-				<policyitem type="license" name="MIT" path="cupsfilters/colormanager.c" desc="MIT license" />
-				<policyitem type="license" name="APACHE 2.0" path=".*" desc="APACHE 2.0 license" />
-				<policyitem type="license" name="LGPLStyleLicense" path="cupsfilters/ipp.c" desc="LGPLStyleLicense 2.0 license" />
-				<policyitem type="license" name="LGPLStyleLicense" path="cupsfilters/ipp.h" desc="LGPLStyleLicense 2.0 license" />
-            </policy>
+				<policyitem type="compatibility" name="GPL-2.0" path="filter/.*" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="imagetoraster独立进程使用,依赖的cups和cupsfilters动态链接库"/>
+				<policyitem type="compatibility" name="GPL-2.0" path="cupsfilters/.*" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="cupsfilters动态链接库, imagetoraster独立进程使用"/>
+				<policyitem type="compatibility" name="GPL-2.0+" path="mime/cupsfilters.types" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="配置文件, 被cups服务读取"/>
+				<policyitem type="compatibility" name="LGPLStyleLicense" path="cupsfilters/ipp.h" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="cupsfilters动态链接库, imagetoraster独立进程使用"/>
+				<policyitem type="compatibility" name="LGPLStyleLicense" path="cupsfilters/ipp.c" rule="may" group="defaultGroup" filefilter="defaultPolicyFilter" desc="cupsfilters动态链接库, imagetoraster独立进程使用"/>
+			</policy>
         </policylist>
+		<licensematcherlist>
+			<licensematcher name="GPL-2.0" desc="" >
+				<licensetext name="
+				*   These coded instructions, statements, and computer programs are the
+				*   property of Apple Inc. and are protected by Federal copyright
+				*   law.  Distribution and use rights are outlined in the file &quot;COPYING&quot;
+				*   which should have been included with this file.
+				" desc=""/>
+				<licensetext name="
+				PDF file output routines.
+				" desc=""/>
+				<licensetext name="
+				# License: GPL-2.0
+				" desc=""/>
+			</licensematcher>
+			<licensematcher name="LGPL-2.1+" desc="" >
+				<licensetext name="
+				under the terms of the GNU Lesser General Public License as
+				" desc=""/>
+			</licensematcher>
+			<licensematcher name="MIT License" desc="" >
+				<licensetext name="
+				// MIT Licensed.
+				" desc=""/>
+			</licensematcher>
+		</licensematcherlist>
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
-				<filteritem type="filename" name="ChangeLog" desc="changelog"/>
-				<filteritem type="filename" name="COPYING" desc="COPYING file"/>
-				<filteritem type="filename" name="AUTHORS" desc="AUTHORS info"/>
-				<filteritem type="filename" name="INSTALL" desc="INSTALL file"/>
-				<filteritem type="filename" name="Makefile.am" desc="未参与编译"/>
-				<filteritem type="filepath" name="backend/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="banners/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="charset/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="data/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="drv/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="fontembed/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="m4/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="mime/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="ppd/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="scripting/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="utils/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/braille/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/foomatic-rip/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/pdftopdf/*" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/unirast.h" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/urftopdf.cpp*" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/rastertopdf.cpp" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/rastertops.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/getline.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/gstopdf" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/gstopxl" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/rastertopclm" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/strcasestr.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/imagetops" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/banner.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/banner.h" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/bannertopdf.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/pdf.cxx" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/pdf.h" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/mupdftoraster.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/pdftoraster.cxx" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/gstoraster.c" desc="未参与编译"/>
-				<filteritem type="filepath" name="filter/texttops" desc="未参与编译"/>
-				<filteritem type="filepath" name="cupsfilters/kmdevices.h" desc="未参与编译"/>
+				<filteritem type="filename" name="ChangeLog" desc="修改日志信息"/>
+				<filteritem type="filename" name="COPYING" desc="COPYING信息"/>
+				<filteritem type="filename" name="AUTHORS" desc="作者信息"/>
+				<filteritem type="filename" name="INSTALL" desc="安装指导信息"/>
+				<filteritem type="filename" name="install-sh" desc="安装脚本信息"/>
             </filefilter>
-            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
-            </filefilter>
-            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
-            </filefilter>
-            <filefilter name="licenseFileNamePolicyFilter" desc="Filters for LICENSE file policies">
-            </filefilter>
-            <filefilter name="readmeFileNamePolicyFilter" desc="Filters for README file policies">
-            </filefilter>
-            <filefilter name="readmeOpenSourcefileNamePolicyFilter" desc="Filters for README.OpenSource file policies">
-            </filefilter>
-            <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
-            </filefilter>
+			<filefilter name="defaultPolicyFilter" desc="Files not to check">
+				<filteritem type="filepath" name="filter/getline.c" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="filter/pdfutils.c" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="filter/escp.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/testdriver.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pcl-common.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/testimage.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="pcl-common.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="mime/cupsfilters-ghostscript.convs" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/testrgb.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/testdither.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/testcmyk.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pcl.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="mime/cupsfilters-mupdf.convs" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/commandtoescpx.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/textcommon.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="mime/cupsfilters-poppler.convs" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="implicitclass.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/commandtopclx.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/textcommon.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pdftops.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/texttopdf.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/texttops" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pdf.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pdf.cxx" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/bannertopdf.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pcl-common.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/banner.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/banner.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/rastertops.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/imagetops" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/pdfutils.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/unirast.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/gstopdf" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/rastertoescpx.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/urftopdf.cpp" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/gstopxl" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/rastertopclm" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/rastertopclx.c" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/rastertopdf.cpp" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="scripting/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="backend/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="ppd/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="data/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="utils/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="filter/foomatic-rip/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="m4/.*" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="data/unclassified.ps" desc="PostScript文件, 没有参与编译"/>
+				<filteritem type="filepath" name="data/confidential.ps" desc="PostScript文件, 没有参与编译"/>
+				<filteritem type="filepath" name="data/topsecret.ps" desc="PostScript文件, 没有参与编译"/>
+				<filteritem type="filepath" name="data/classified.ps" desc="PostScript文件, 没有参与编译"/>
+				<filteritem type="filepath" name="data/standard.ps" desc="PostScript文件, 没有参与编译"/>
+				<filteritem type="filepath" name="data/secret.ps" desc="PostScript文件, 没有参与编译"/>
+			</filefilter>
+            <filefilter name="binaryFileTypePolicyFilter" desc="二进制文件校验策略的过滤条件" >
+				<filteritem type="filepath" name="data/confidential.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/unclassified.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/default-testpage.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/default.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="drv/cupsfilters.drv" desc="drv驱动示例文件"/>
+				<filteritem type="filepath" name="data/form_english.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/form_english_in.odt" desc="odt文档文件"/>
+				<filteritem type="filepath" name="drv/generic-brf.drv" desc="drv驱动示例文件"/>
+				<filteritem type="filepath" name="data/form_russian.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="drv/generic-ubrl.drv" desc="drv驱动示例文件"/>
+				<filteritem type="filepath" name="data/form_russian_in.odt" desc="odt文档文件"/>
+				<filteritem type="filepath" name="drv/indexv3.drv" desc="drv驱动示例文件"/>
+				<filteritem type="filepath" name="drv/indexv4.drv" desc="drv驱动示例文件"/>
+				<filteritem type="filepath" name="data/secret.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/standard.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/classified.pdf" desc="pdf文件"/>
+				<filteritem type="filepath" name="data/topsecret.pdf" desc="pdf文件"/>
+			</filefilter>
         </filefilterlist>
-        <licensematcherlist>
-			<licensematcher name="APACHE 2.0" desc="">
-                <licensetext name="" desc=""/>
-            </licensematcher>
-        </licensematcherlist>
     </oatconfig>
 </configuration>
