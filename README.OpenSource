@@ -1,7 +1,7 @@
 [
     {
-        "Name": "cups-filter",
-        "License": "Apache 2.0",
+        "Name": "cups-filters",
+        "License": "Apache 2.0 License",
         "License File": "COPYING",
         "Version Number": "1.28.17",
         "Owner": "dongzhengkuan@huawei.com",
