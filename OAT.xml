@@ -119,7 +119,7 @@ Note:If the text contains special characters|please escape them according to the
 				<filteritem type="filepath" name="ln-srf" desc="没有使用"/>
             </filefilter>
 			<filefilter name="defaultPolicyFilter" desc="Files not to check">
-				<filteritem type="filepath" name="cupsFilters/.*" desc="除了单列，其它动态链接方式使用"/>
+				<filteritem type="filepath" name="cupsfilters/.*" desc="除了单列，其它动态链接方式使用"/>
 				<filteritem type="filepath" name="fontembed/.*" desc="没有使用"/>
 				<filteritem type="filepath" name="banners/.*" desc="没有使用"/>
 				<filteritem type="filepath" name="drv/.*" desc="没有使用"/>
@@ -133,7 +133,6 @@ Note:If the text contains special characters|please escape them according to the
 				<filteritem type="filepath" name="filter/common.h" desc="动态链接方式使用"/>
 				<filteritem type="filepath" name="filter/imagetoraster.c" desc="动态链接方式使用"/>
 				<filteritem type="filepath" name="cupsfilters/testdriver.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pcl-common.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="cupsfilters/testimage.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="pcl-common.h" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="mime/cupsfilters-ghostscript.convs" desc="代码没有参与编译"/>
