@@ -98,53 +98,55 @@ Note:If the text contains special characters|please escape them according to the
 				<filteritem type="filename" name="AUTHORS" desc="作者信息"/>
 				<filteritem type="filename" name="INSTALL" desc="安装指导信息"/>
 				<filteritem type="filename" name="install-sh" desc="安装脚本信息"/>
+				<filteritem type="filename" name="Makefile.am" desc="编译脚本信息"/>
+            </filefilter>
+            <filefilter name="copyrightPolicyFilter" desc="Files not to check">
+				<filteritem type="filepath" name="cupsfilters/.*" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="filter/.*" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="backend/.*" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="mime/.*" desc="驱动配置文件，只读，没有修改"/>
+				<filteritem type="filepath" name="drv/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="banners/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="utils/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="fontembed/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="ppd/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="m4/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="data/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="scripting/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="charset/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="autogen.sh" desc="没有使用"/>
+				<filteritem type="filepath" name="configure.ac" desc="没有使用"/>
+				<filteritem type="filepath" name="ln-srf" desc="没有使用"/>
             </filefilter>
 			<filefilter name="defaultPolicyFilter" desc="Files not to check">
-				<filteritem type="filepath" name="filter/getline.c" desc="动态链接方式使用"/>
-				<filteritem type="filepath" name="filter/pdfutils.c" desc="动态链接方式使用"/>
-				<filteritem type="filepath" name="filter/escp.h" desc="代码没有参与编译"/>
+				<filteritem type="filepath" name="cupsfilters/.*" desc="除了单列，其它动态链接方式使用"/>
+				<filteritem type="filepath" name="fontembed/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="banners/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="drv/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="mime/.*" desc="除了单列，其它驱动配置文件只读，没有修改"/>
+				<filteritem type="filepath" name="charset/.*" desc="没有使用"/>
+				<filteritem type="filepath" name="autogen.sh" desc="没有使用"/>
+				<filteritem type="filepath" name="configure.ac" desc="没有使用"/>
+				<filteritem type="filepath" name="ln-srf" desc="没有使用"/>
+				<filteritem type="filepath" name="filter/.*" desc="除了单列，其它都没有参与编译使用"/>
+				<filteritem type="filepath" name="filter/common.c" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="filter/common.h" desc="动态链接方式使用"/>
+				<filteritem type="filepath" name="filter/imagetoraster.c" desc="动态链接方式使用"/>
 				<filteritem type="filepath" name="cupsfilters/testdriver.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pcl-common.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="cupsfilters/testimage.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="pcl-common.h" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="mime/cupsfilters-ghostscript.convs" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="cupsfilters/testrgb.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="cupsfilters/testdither.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="cupsfilters/testcmyk.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pcl.h" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="mime/cupsfilters-mupdf.convs" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/commandtoescpx.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/textcommon.c" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="mime/cupsfilters-poppler.convs" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="implicitclass.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/commandtopclx.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/textcommon.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pdftops.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/texttopdf.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/texttops" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pdf.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pdf.cxx" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/bannertopdf.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pcl-common.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/banner.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/banner.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/rastertops.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/imagetops" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/pdfutils.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/unirast.h" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/gstopdf" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/rastertoescpx.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/urftopdf.cpp" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/gstopxl" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/rastertopclm" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/rastertopclx.c" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/rastertopdf.cpp" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="scripting/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="backend/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="ppd/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="data/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="utils/.*" desc="代码没有参与编译"/>
-				<filteritem type="filepath" name="filter/foomatic-rip/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="m4/.*" desc="代码没有参与编译"/>
 				<filteritem type="filepath" name="data/unclassified.ps" desc="PostScript文件, 没有参与编译"/>
 				<filteritem type="filepath" name="data/confidential.ps" desc="PostScript文件, 没有参与编译"/>
