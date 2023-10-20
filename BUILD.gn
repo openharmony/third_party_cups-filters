@@ -19,7 +19,8 @@ CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
 
-exec_script("//third_party/cups-filters/applyPatch.sh")
+cups_filters_path = rebase_path("//third_party/cups-filters")
+exec_script("applyPatch.sh", [ "$cups_filters_path" ])
 print("cups-filter applyPatch successfully")
 
 group("third_party_cupsfilters") {
