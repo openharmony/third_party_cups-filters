@@ -13,6 +13,6 @@
 # limitations under the License.
 
 set -e
-
-patch -p1 -i backport-CVE-2023-24805.patch --fuzz=0 --no-backup-if-mismatch
+cd $1
+patch -p1 < $1/backport-CVE-2023-24805.patch --fuzz=0 --no-backup-if-mismatch
 exit 0
