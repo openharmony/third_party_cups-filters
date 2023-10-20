@@ -140,3 +140,4 @@ ohos_prebuilt_etc("cupsfilters.types") {
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
 }
+
