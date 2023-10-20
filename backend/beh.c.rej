@@ -1,7 +1,5 @@
-diff --git a/backend/beh.c b/backend/beh.c
-index 225fd27d..80f51b06 100644
---- a/backend/beh.c
-+++ b/backend/beh.c
+--- backend/beh.c
++++ backend/beh.c
 @@ -22,12 +22,12 @@
  #include "backend-private.h"
  #include <cups/array.h>
