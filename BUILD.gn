@@ -19,12 +19,16 @@ CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
 
+cups_filters_path = rebase_path("//third_party/cups-filters")
+exec_script("applyPatch.sh", [ "$cups_filters_path" ])
+print("cups-filter applyPatch successfully")
+
 group("third_party_cupsfilters") {
   deps = [
     ":cupsfilters",
     ":cupsfilters.convs",
     ":cupsfilters.types",
-    ":imagetoraster"
+    ":imagetoraster",
   ]
 }
 
@@ -123,7 +127,9 @@ ohos_executable("imagetoraster") {
 }
 
 ohos_prebuilt_etc("cupsfilters.convs") {
-  exec_script(rebase_path("//third_party/cups-filters/generate_cupsfilters_convs.py"), [rebase_path("//third_party/cups-filters/mime")])
+  exec_script(
+      rebase_path("//third_party/cups-filters/generate_cupsfilters_convs.py"),
+      [ rebase_path("//third_party/cups-filters/mime") ])
   source = "mime/cupsfilters.convs"
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
