@@ -19,6 +19,9 @@ CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
 
+exec_script("//third_party/cups-filters/applyPatch.sh")
+print("cups-filter applyPatch successfully")
+
 group("third_party_cupsfilters") {
   deps = [
     ":cupsfilters",
