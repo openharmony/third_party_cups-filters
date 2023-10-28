@@ -159,8 +159,10 @@ ohos_executable("pdftoraster") {
     ":cupsfilters_action",
     "//third_party/cups:cups",
     "//third_party/cups-filters:cupsfilters",
-    "//third_party/pdfium:pdfium_shared",
   ]
+  if(PDFIUM_ENABLE) {
+    deps += [ "//third_party/pdfium:pdfium_shared" ]
+  }
 
   public_configs = [ ":cups_filters_config" ]
 
