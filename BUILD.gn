@@ -25,12 +25,12 @@ group("third_party_cupsfilters") {
     ":cupsfilters",
     ":cupsfilters.convs",
     ":cupsfilters.types",
-    ":imagetoraster"
+    ":imagetoraster",
   ]
-  if(PDFIUM_ENABLE) {
+  if (PDFIUM_ENABLE) {
     deps += [
-      ":pdftoraster",
       ":cupsfilters_poppler.convs",
+      ":pdftoraster",
     ]
   }
 }
@@ -42,7 +42,7 @@ config("cups_filters_config") {
     "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
     "$CUPS_FILTERS_CODE_DIR/filter/",
   ]
-  if(PDFIUM_ENABLE) {
+  if (PDFIUM_ENABLE) {
     include_dirs += [
       "//third_party/pdfium",
       "//third_party/pdfium/public",
@@ -151,16 +151,14 @@ ohos_executable("imagetoraster") {
 }
 
 ohos_executable("pdftoraster") {
-  sources = [
-    "$CUPS_FILTERS_CODE_DIR/filter/pdftoraster.cxx",
-  ]
+  sources = [ "$CUPS_FILTERS_CODE_DIR/filter/pdftoraster.cxx" ]
 
   deps = [
     ":cupsfilters_action",
     "//third_party/cups:cups",
     "//third_party/cups-filters:cupsfilters",
   ]
-  if(PDFIUM_ENABLE) {
+  if (PDFIUM_ENABLE) {
     deps += [ "//third_party/pdfium:pdfium_shared" ]
   }
 
