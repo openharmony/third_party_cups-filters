@@ -1,0 +1,12 @@
+diff --git a/mime/cupsfilters-poppler.convs b/mime/cupsfilters-poppler.convs
+index 4fd91c1e..abc8bdd0 100644
+--- a/mime/cupsfilters-poppler.convs
++++ b/mime/cupsfilters-poppler.convs
+@@ -15,5 +15,5 @@
+ # Poppler-based filters...
+ #
+ 
+-application/vnd.cups-pdf	application/vnd.cups-raster	100	pdftoraster
+-application/vnd.cups-pdf	image/pwg-raster		100	pdftoraster
++application/pdf	application/vnd.cups-raster	100	pdftoraster
++application/pdf	image/pwg-raster		100	pdftoraster
