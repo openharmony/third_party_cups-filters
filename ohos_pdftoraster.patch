@@ -190,11 +190,11 @@ index e8af184f..c60e11c7 100755
 -    npages = doc->pages();
 -
 +    npages = FPDF_GetPageCount(doc);
-+  fprintf(stderr, "ERROR: npages: %s\n", npages);
++  fprintf(stderr, "ERROR: npages: %d\n", npages);
    /* fix NumCopies, Collate ccording to PDFTOPDFComments */
 -  header.NumCopies = deviceCopies;
 +  header.NumCopies = atoi(argv[4]);
-+  fprintf(stderr, "ERROR: NumCopies: %s\n", header.NumCopies);
++  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
