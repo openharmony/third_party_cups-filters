@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..1f6c081f 100755
+index e8af184f..c60e11c7 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -178,7 +178,7 @@ index e8af184f..1f6c081f 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,11 +2011,11 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2011,15 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -188,11 +188,30 @@ index e8af184f..1f6c081f 100755
  
    if(doc != NULL)
 -    npages = doc->pages();
+-
 +    npages = FPDF_GetPageCount(doc);
- 
++  fprintf(stderr, "ERROR: npages: %s\n", npages);
    /* fix NumCopies, Collate ccording to PDFTOPDFComments */
-   header.NumCopies = deviceCopies;
-@@ -2140,33 +2136,7 @@ int main(int argc, char *argv[]) {
+-  header.NumCopies = deviceCopies;
++  header.NumCopies = atoi(argv[4]);
++  fprintf(stderr, "ERROR: NumCopies: %s\n", header.NumCopies);
+   header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
+   /* fixed other values that pdftopdf handles */
+   header.MirrorPrint = CUPS_FALSE;
+@@ -2119,8 +2116,10 @@ int main(int argc, char *argv[]) {
+   }
+   selectConvertFunc(raster);
+   if(doc != NULL){
+-    for (i = 1;i <= npages;i++) {
+-      outPage(doc,i,raster);
++    for (int j = 0; j < header.NumCopies; j++) {
++      for (i = 1;i <= npages;i++) {
++        outPage(doc,i,raster);
++      }
+     }
+   } else
+     fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
+@@ -2140,33 +2139,7 @@ int main(int argc, char *argv[]) {
    if (colorTransform != NULL) {
      cmsDeleteTransform(colorTransform);
    }
