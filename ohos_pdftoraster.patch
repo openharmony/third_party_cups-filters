@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..c60e11c7 100755
+index e8af184f..7fc0d767 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -147,6 +147,17 @@ index e8af184f..c60e11c7 100755
    if (l < 0) l = -l;
    if (rotate == 90 || rotate == 270)
      header.PageSize[0] = (unsigned)l;
+@@ -1831,8 +1825,8 @@ static void outPage(poppler::document *doc, int pageNo,
+   }
+ 
+   if (imageable_area_fit == 0) {
+-    bitmapoffset[0] = margins[0] / 72.0 * header.HWResolution[0];
+-    bitmapoffset[1] = margins[3] / 72.0 * header.HWResolution[1];
++    bitmapoffset[0] = margins[0];
++    bitmapoffset[1] = margins[3];
+   } else {
+     bitmapoffset[0] = 0;
+     bitmapoffset[1] = 0;
 @@ -1884,6 +1878,7 @@ static void outPage(poppler::document *doc, int pageNo,
  
    /* write page image */
