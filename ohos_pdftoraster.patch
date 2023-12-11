@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..7fc0d767 100755
+index e8af184f..f165eac0 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -189,7 +189,7 @@ index e8af184f..7fc0d767 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2011,15 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2011,18 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -205,11 +205,14 @@ index e8af184f..7fc0d767 100755
    /* fix NumCopies, Collate ccording to PDFTOPDFComments */
 -  header.NumCopies = deviceCopies;
 +  header.NumCopies = atoi(argv[4]);
++  if (strstr(argv[0], "Pantum") != NULL) {
++    header.NumCopies = 1;
++  }
 +  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,8 +2116,10 @@ int main(int argc, char *argv[]) {
+@@ -2119,8 +2119,10 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -222,7 +225,7 @@ index e8af184f..7fc0d767 100755
      }
    } else
      fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
-@@ -2140,33 +2139,7 @@ int main(int argc, char *argv[]) {
+@@ -2140,33 +2142,7 @@ int main(int argc, char *argv[]) {
    if (colorTransform != NULL) {
      cmsDeleteTransform(colorTransform);
    }
