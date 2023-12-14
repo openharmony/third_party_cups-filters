@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..f165eac0 100755
+index e8af184f..64a82075 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -18,7 +18,28 @@ index e8af184f..f165eac0 100755
  #ifdef USE_LCMS1
  #include <lcms.h>
  #define cmsColorSpaceSignature icColorSpaceSignature
-@@ -1551,7 +1548,7 @@ static unsigned char *removeAlpha(unsigned char *src, unsigned char *dst, unsign
+@@ -120,6 +117,7 @@ namespace {
+   bool swap_margin_x = false;
+   bool swap_margin_y = false;
+   bool allocLineBuf = false;
++  bool cupsManualCopies = true;
+   ConvertLineFunc convertLineOdd;
+   ConvertLineFunc convertLineEven;
+   ConvertCSpaceFunc convertCSpace;
+@@ -374,6 +372,12 @@ static void parseOpts(int argc, char **argv)
+ 	renderingIntent = INTENT_ABSOLUTE_COLORIMETRIC;
+       }
+     }
++    attr = ppdFindAttr(ppd,"cupsManualCopies",NULL);
++    if (attr != NULL && attr->value != NULL) {
++      if (strcasecmp(attr->value,"true") != 0) {
++        cupsManualCopies = false;
++      }
++    }
+     if (header.Duplex) {
+       /* analyze options relevant to Duplex */
+       const char *backside = "";
+@@ -1551,7 +1555,7 @@ static unsigned char *removeAlpha(unsigned char *src, unsigned char *dst, unsign
    return temp;
  }
  
@@ -27,7 +48,7 @@ index e8af184f..f165eac0 100755
    int pageNo)
  {
    ConvertLineFunc convertLine;
-@@ -1559,36 +1556,37 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1559,36 +1563,37 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
    unsigned char *dp;
    unsigned int rowsize;
  
@@ -82,7 +103,7 @@ index e8af184f..f165eac0 100755
        cupsImageRGBToWhite(newdata,graydata,pixel_count);
        colordata=graydata;
        rowsize=header.cupsWidth;
-@@ -1602,10 +1600,15 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1602,10 +1607,15 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
     case CUPS_CSPACE_CMY:
     case CUPS_CSPACE_RGBW:
     default:
@@ -102,7 +123,7 @@ index e8af184f..f165eac0 100755
     rowsize=header.cupsWidth*3;
     colordata=newdata;
       break;
-@@ -1649,7 +1652,7 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1649,7 +1659,7 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
    if (allocLineBuf) delete[] lineBuf;
  }
  
@@ -111,7 +132,7 @@ index e8af184f..f165eac0 100755
    cups_raster_t *raster)
  {
    int rotate = 0;
-@@ -1661,28 +1664,19 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1661,28 +1671,19 @@ static void outPage(poppler::document *doc, int pageNo,
    int imageable_area_fit = 0;
    int i;
  
@@ -147,7 +168,7 @@ index e8af184f..f165eac0 100755
    if (l < 0) l = -l;
    if (rotate == 90 || rotate == 270)
      header.PageSize[0] = (unsigned)l;
-@@ -1831,8 +1825,8 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1831,8 +1832,8 @@ static void outPage(poppler::document *doc, int pageNo,
    }
  
    if (imageable_area_fit == 0) {
@@ -158,7 +179,7 @@ index e8af184f..f165eac0 100755
    } else {
      bitmapoffset[0] = 0;
      bitmapoffset[1] = 0;
-@@ -1884,6 +1878,7 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1884,6 +1885,7 @@ static void outPage(poppler::document *doc, int pageNo,
  
    /* write page image */
    writePageImage(raster,doc,pageNo);
@@ -166,7 +187,7 @@ index e8af184f..f165eac0 100755
  }
  
  static void setPopplerColorProfile()
-@@ -1972,11 +1967,12 @@ static void setPopplerColorProfile()
+@@ -1972,11 +1974,12 @@ static void setPopplerColorProfile()
  }
  
  int main(int argc, char *argv[]) {
@@ -180,7 +201,7 @@ index e8af184f..f165eac0 100755
    cmsSetLogErrorHandler(lcmsErrorHandler);
    parseOpts(argc, argv);
  
-@@ -2002,7 +1998,7 @@ int main(int argc, char *argv[]) {
+@@ -2002,7 +2005,7 @@ int main(int argc, char *argv[]) {
        }
      }
      close(fd);
@@ -189,7 +210,7 @@ index e8af184f..f165eac0 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2011,18 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2018,21 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -204,15 +225,18 @@ index e8af184f..f165eac0 100755
 +  fprintf(stderr, "ERROR: npages: %d\n", npages);
    /* fix NumCopies, Collate ccording to PDFTOPDFComments */
 -  header.NumCopies = deviceCopies;
-+  header.NumCopies = atoi(argv[4]);
-+  if (strstr(argv[0], "Pantum") != NULL) {
-+    header.NumCopies = 1;
++  if (cupsManualCopies) {
++    fprintf(stderr, "ERROR: Using cups to handle the number of printed copies\n");
++    header.NumCopies = atoi(argv[4]);   
++  } else {
++    fprintf(stderr, "ERROR: The printer handles the number of printed copies\n");
++    header.NumCopies = 1;   
 +  }
 +  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,8 +2119,10 @@ int main(int argc, char *argv[]) {
+@@ -2119,8 +2129,10 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -225,7 +249,7 @@ index e8af184f..f165eac0 100755
      }
    } else
      fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
-@@ -2140,33 +2142,7 @@ int main(int argc, char *argv[]) {
+@@ -2140,33 +2152,7 @@ int main(int argc, char *argv[]) {
    if (colorTransform != NULL) {
      cmsDeleteTransform(colorTransform);
    }
