@@ -225,7 +225,7 @@ index e8af184f..dd59e8bd 100755
 +  fprintf(stderr, "ERROR: printerName: %s\n", argv[0]);
 +  fprintf(stderr, "ERROR: makeModel: %s\n", makeModel);
 +  // The number of printed copies will be repeatedly processed by the Pantum PCL printing driver
-+  if (strstr(argv[0], "Pantum") != NULL && strstr(makeModel, "IPP Everywhere")) {
++  if (strstr(argv[0], "Pantum") != NULL && strstr(makeModel, "IPP Everywhere") == NULL) {
 +    header.NumCopies = 1;
 +  }
 +  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
