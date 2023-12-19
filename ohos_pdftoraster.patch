@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..64a82075 100755
+index e8af184f..fd0736b3 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -236,7 +236,7 @@ index e8af184f..64a82075 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,8 +2129,10 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2129,16 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -249,12 +249,21 @@ index e8af184f..64a82075 100755
      }
    } else
      fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
-@@ -2140,33 +2152,7 @@ int main(int argc, char *argv[]) {
+ 
+   cupsRasterClose(raster);
+ 
+-  delete doc;
+   if (ppd != NULL) {
+     ppdClose(ppd);
+   }
+@@ -2140,33 +2151,9 @@ int main(int argc, char *argv[]) {
    if (colorTransform != NULL) {
      cmsDeleteTransform(colorTransform);
    }
 -
-+  FPDF_CloseDocument(doc);
++  if (doc != nullptr) {
++    FPDF_CloseDocument(doc);
++  }
 +  FPDF_DestroyLibrary();
    return exitCode;
  }
