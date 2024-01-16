@@ -68,6 +68,8 @@ config("cups_filters_config") {
     "-Wimplicit-fallthrough",
     "-Wno-implicit-function-declaration",
     "-w",
+    "-D_FORTIFY_SOURCE=2",
+    "-fstack-protector-all",
   ]
 }
 
