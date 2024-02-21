@@ -35,7 +35,27 @@
             "sub_component": [
                 "//third_party/cups-filters:third_party_cupsfilters"
             ],
-            "inner_kits": [],
+            "inner_kits": [
+                {
+                    "name": "//third_party/cups-filters:cupsfilters ",
+                    "header": {
+                      "header_files": [
+                        "colord.h",
+                        "colormanager.h",
+                        "driver.h",
+                        "image-private.h",
+                        "image-sgi.h",
+                        "image.h",
+                        "ipp.h",
+                        "kmdevices.h",
+                        "pdftoippprinter.h",
+                        "ppdgenerator.h",
+                        "raster.h"
+                      ],
+                      "header_base": "//third_party/cups-filters/cupsfilters"
+                    }
+                }
+            ],
             "test": []
         }
     }
