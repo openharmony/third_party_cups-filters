@@ -27,7 +27,8 @@
                 "cups",
                 "libpng",
                 "libjpeg-turbo",
-                "zlib"
+                "zlib",
+                "pdfium"
             ]
         },
         "build": {
