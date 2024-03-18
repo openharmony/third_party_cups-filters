@@ -18,14 +18,21 @@ CUPS_CODE_DIR = "//third_party/cups/cups-2.4.0"
 CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
+PDFIUM_ENABLE = false
 
 group("third_party_cupsfilters") {
   deps = [
     ":cupsfilters",
     ":cupsfilters.convs",
     ":cupsfilters.types",
-    ":imagetoraster"
+    ":imagetoraster",
   ]
+  if (PDFIUM_ENABLE) {
+    deps += [
+      ":cupsfilters_poppler.convs",
+      ":pdftoraster",
+    ]
+  }
 }
 
 config("cups_filters_config") {
@@ -35,6 +42,13 @@ config("cups_filters_config") {
     "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
     "$CUPS_FILTERS_CODE_DIR/filter/",
   ]
+  if (PDFIUM_ENABLE) {
+    include_dirs += [
+      "//third_party/pdfium",
+      "//third_party/pdfium/public",
+      "//third_party/pdfium/third_party/lcms/include",
+    ]
+  }
 
   defines = cups_defines
 
@@ -54,6 +68,22 @@ config("cups_filters_config") {
     "-Wimplicit-fallthrough",
     "-Wno-implicit-function-declaration",
     "-w",
+    "-D_FORTIFY_SOURCE=2",
+    "-fstack-protector-all",
+  ]
+}
+
+action("cupsfilters_action") {
+  script = "//third_party/cups-filters/install.py"
+  outputs = [ "${target_gen_dir}/cupsfilters.convs" ]
+  inputs = [ "//third_party/cups/cups-2.4.0-source.tar.gz" ]
+  gen_path = rebase_path("${target_gen_dir}", root_build_dir)
+  source_path = rebase_path("//third_party/cups-filters", root_build_dir)
+  args = [
+    "--gen-dir",
+    "$gen_path",
+    "--source-dir",
+    "$source_path",
   ]
 }
 
@@ -122,9 +152,37 @@ ohos_executable("imagetoraster") {
   part_name = "$PART_NAME"
 }
 
+ohos_executable("pdftoraster") {
+  sources = [ "$CUPS_FILTERS_CODE_DIR/filter/pdftoraster.cxx" ]
+
+  deps = [
+    ":cupsfilters_action",
+    "//third_party/cups:cups",
+    "//third_party/cups-filters:cupsfilters",
+  ]
+  if (PDFIUM_ENABLE) {
+    deps += [ "//third_party/pdfium:pdfium_shared" ]
+  }
+
+  public_configs = [ ":cups_filters_config" ]
+
+  module_install_dir = "$cups_serverbin_dir/filter"
+  install_enable = true
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
+}
+
+ohos_prebuilt_etc("cupsfilters_poppler.convs") {
+  source = "mime/cupsfilters-poppler.convs"
+  deps = [ ":cupsfilters_action" ]
+  relative_install_dir = "cups/share/mime"
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
+}
+
 ohos_prebuilt_etc("cupsfilters.convs") {
-  exec_script(rebase_path("//third_party/cups-filters/generate_cupsfilters_convs.py"), [rebase_path("//third_party/cups-filters/mime")])
-  source = "mime/cupsfilters.convs"
+  source = "${target_gen_dir}/cupsfilters.convs"
+  deps = [ ":cupsfilters_action" ]
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
@@ -132,6 +190,7 @@ ohos_prebuilt_etc("cupsfilters.convs") {
 
 ohos_prebuilt_etc("cupsfilters.types") {
   source = "mime/cupsfilters.types"
+  deps = [ ":cupsfilters_action" ]
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
