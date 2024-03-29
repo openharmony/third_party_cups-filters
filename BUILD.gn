@@ -18,7 +18,6 @@ CUPS_CODE_DIR = "//third_party/cups/cups-2.4.0"
 CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
-PDFIUM_ENABLE = false
 
 group("third_party_cupsfilters") {
   deps = [
@@ -27,12 +26,6 @@ group("third_party_cupsfilters") {
     ":cupsfilters.types",
     ":imagetoraster",
   ]
-  if (PDFIUM_ENABLE) {
-    deps += [
-      ":cupsfilters_poppler.convs",
-      ":pdftoraster",
-    ]
-  }
 }
 
 config("cups_filters_config") {
@@ -42,13 +35,6 @@ config("cups_filters_config") {
     "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
     "$CUPS_FILTERS_CODE_DIR/filter/",
   ]
-  if (PDFIUM_ENABLE) {
-    include_dirs += [
-      "//third_party/pdfium",
-      "//third_party/pdfium/public",
-      "//third_party/pdfium/third_party/lcms/include",
-    ]
-  }
 
   defines = cups_defines
 
@@ -122,6 +108,7 @@ ohos_shared_library("cupsfilters") {
   public_configs = [ ":cups_filters_config" ]
 
   deps = [
+    ":cupsfilters_action",
     "//third_party/cups:cups",
     "//third_party/libjpeg-turbo:turbojpeg",
     "//third_party/libpng:libpng",
@@ -148,34 +135,6 @@ ohos_executable("imagetoraster") {
 
   module_install_dir = "$cups_serverbin_dir/filter"
   install_enable = true
-  subsystem_name = "$SUBSYSTEM_NAME"
-  part_name = "$PART_NAME"
-}
-
-ohos_executable("pdftoraster") {
-  sources = [ "$CUPS_FILTERS_CODE_DIR/filter/pdftoraster.cxx" ]
-
-  deps = [
-    ":cupsfilters_action",
-    "//third_party/cups:cups",
-    "//third_party/cups-filters:cupsfilters",
-  ]
-  if (PDFIUM_ENABLE) {
-    deps += [ "//third_party/pdfium:pdfium_shared" ]
-  }
-
-  public_configs = [ ":cups_filters_config" ]
-
-  module_install_dir = "$cups_serverbin_dir/filter"
-  install_enable = true
-  subsystem_name = "$SUBSYSTEM_NAME"
-  part_name = "$PART_NAME"
-}
-
-ohos_prebuilt_etc("cupsfilters_poppler.convs") {
-  source = "mime/cupsfilters-poppler.convs"
-  deps = [ ":cupsfilters_action" ]
-  relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
 }
