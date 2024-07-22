@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..2e1ee8aa 100755
+index e8af184f..77a211d7 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -48,7 +48,7 @@ index e8af184f..2e1ee8aa 100755
    int pageNo)
  {
    ConvertLineFunc convertLine;
-@@ -1559,36 +1563,34 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1559,36 +1563,35 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
    unsigned char *dp;
    unsigned int rowsize;
  
@@ -60,6 +60,8 @@ index e8af184f..2e1ee8aa 100755
    unsigned char *colordata,*newdata,*graydata,*onebitdata;
    unsigned int pixel_count;
 -  poppler::image im;
++  std::vector<unsigned char>* buffer;
++  unsigned char* newBuffer;
    //render the page according to the colourspace and generate the requried data
    switch (header.cupsColorSpace) {
     case CUPS_CSPACE_W://gray
@@ -73,9 +75,9 @@ index e8af184f..2e1ee8aa 100755
 -    cupsImageRGBToWhite(newdata,graydata,im.width()*im.height());
 -    onebitdata=(unsigned char *)malloc(sizeof(char)*bytesPerLine*im.height());
 -    onebitpixel(graydata,onebitdata,im.width(),im.height());
-+    std::vector<unsigned char>* buffer = doc->GetPageBitMapBuffer(pageNo-1,
-+      bitmapoffset[0], bitmapoffset[1], bytesPerLine*8, header.cupsHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
-+    unsigned char* newBuffer = &((*buffer)[0]);
++    buffer = doc->GetPageBitMapBuffer(pageNo-1, bitmapoffset[0], bitmapoffset[1], bytesPerLine*8, header.cupsHeight,
++        3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++    newBuffer = &((*buffer)[0]);
 +    newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +    newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
 +    graydata=(unsigned char *)malloc(sizeof(char)*header.cupsWidth*header.cupsHeight);
@@ -84,16 +86,17 @@ index e8af184f..2e1ee8aa 100755
 +    onebitpixel(graydata,onebitdata,header.cupsWidth, header.cupsHeight);
      colordata=onebitdata;
      rowsize=bytesPerLine;
-     }
-     else{
+-    }
+-    else{
 -      im = pr.render_page(current_page,header.HWResolution[0],header.HWResolution[1],bitmapoffset[0],bitmapoffset[1],header.cupsWidth,header.cupsHeight);
 -      newdata = (unsigned char *)malloc(sizeof(char)*3*im.width()*im.height());
 -      newdata = removeAlpha((unsigned char *)im.const_data(),newdata,im.width(),im.height());
 -      pixel_count=im.width()*im.height();
 -      graydata=(unsigned char *)malloc(sizeof(char)*im.width()*im.height());
-+      std::vector<unsigned char>* buffer = doc->GetPageBitMapBuffer(pageNo-1,
-+          bitmapoffset[0], bitmapoffset[1], header.cupsWidth, header.cupsHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
-+      unsigned char* newBuffer = &((*buffer)[0]);
++    } else {
++      buffer = doc->GetPageBitMapBuffer(pageNo-1, bitmapoffset[0], bitmapoffset[1], header.cupsWidth, header.cupsHeight,
++          3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++      newBuffer = &((*buffer)[0]);
 +      newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +      newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
 +      pixel_count=header.cupsWidth * header.cupsHeight;
@@ -101,7 +104,7 @@ index e8af184f..2e1ee8aa 100755
        cupsImageRGBToWhite(newdata,graydata,pixel_count);
        colordata=graydata;
        rowsize=header.cupsWidth;
-@@ -1602,10 +1604,16 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1602,10 +1605,12 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
     case CUPS_CSPACE_CMY:
     case CUPS_CSPACE_RGBW:
     default:
@@ -109,20 +112,24 @@ index e8af184f..2e1ee8aa 100755
 -   newdata = (unsigned char *)malloc(sizeof(char)*3*im.width()*im.height());
 -   newdata = removeAlpha((unsigned char *)im.const_data(),newdata,im.width(),im.height());
 -   pixel_count=im.width()*im.height();
-+  //  im = pr.render_page(current_page,header.HWResolution[0],header.HWResolution[1],bitmapoffset[0],bitmapoffset[1],header.cupsWidth,header.cupsHeight);
-+  //  newdata = (unsigned char *)malloc(sizeof(char)*3*im.width()*im.height());
-+  //  newdata = removeAlpha((unsigned char *)im.const_data(),newdata,im.width(),im.height());
-+  //  pixel_count=im.width()*im.height();
-+   std::vector<unsigned char>* buffer = doc->GetPageBitMapBuffer(pageNo-1,
-+      bitmapoffset[0], bitmapoffset[1], header.cupsWidth, header.cupsHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
-+   unsigned char* newBuffer = &((*buffer)[0]);
++   buffer = doc->GetPageBitMapBuffer(pageNo-1, bitmapoffset[0], bitmapoffset[1], header.cupsWidth, header.cupsHeight,
++       3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++   newBuffer = &((*buffer)[0]);
 +   newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +   newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
 +   pixel_count=header.cupsWidth * header.cupsHeight;
     rowsize=header.cupsWidth*3;
     colordata=newdata;
       break;
-@@ -1649,7 +1657,7 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1645,11 +1650,14 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+       }
+     }
+   }
+-  free(colordata);
++  if (colordata) free(colordata);
++  if (newdata) free(newdata);
++  if (buffer) delete(buffer);
++  newBuffer = NULL;
    if (allocLineBuf) delete[] lineBuf;
  }
  
@@ -185,13 +192,13 @@ index e8af184f..2e1ee8aa 100755
  
  int main(int argc, char *argv[]) {
 -  poppler::document *doc;
++  g_pdfSdkCount++;
++  PDFInner::PDFSdk sdk = PDFInner::PDFSdk::GetSdkInstance();
++  PDFInner::PDFDocument* doc = sdk.GetDocInstance();
    int i;
    int npages=0;
    cups_raster_t *raster;
 -
-+  g_pdfSdkCount++;
-+  PDFInner::PDFSdk sdk = PDFInner::PDFSdk::GetSdkInstance();
-+  PDFInner::PDFDocument* doc = sdk.GetDocInstance();
    cmsSetLogErrorHandler(lcmsErrorHandler);
    parseOpts(argc, argv);
  
@@ -243,7 +250,7 @@ index e8af184f..2e1ee8aa 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,15 +2141,16 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2141,24 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -260,14 +267,6 @@ index e8af184f..2e1ee8aa 100755
    cupsRasterClose(raster);
  
 -  delete doc;
-   if (ppd != NULL) {
-     ppdClose(ppd);
-   }
-@@ -2140,33 +2163,12 @@ int main(int argc, char *argv[]) {
-   if (colorTransform != NULL) {
-     cmsDeleteTransform(colorTransform);
-   }
--
 +  if (doc != nullptr) {
 +    sdk.ReleaseDocInstance(doc);
 +  }
@@ -275,6 +274,12 @@ index e8af184f..2e1ee8aa 100755
 +  if (g_pdfSdkCount == 0) {
 +    sdk.Release();
 +  }
++  
+   if (ppd != NULL) {
+     ppdClose(ppd);
+   }
+@@ -2143,30 +2174,3 @@ int main(int argc, char *argv[]) {
+ 
    return exitCode;
  }
 -
