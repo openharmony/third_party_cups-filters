@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..77a211d7 100755
+index e8af184f..7305c12e 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -44,7 +44,7 @@ index e8af184f..77a211d7 100755
  }
  
 -static void writePageImage(cups_raster_t *raster, poppler::document *doc,
-+static void writePageImage(cups_raster_t *raster, FPDFInner::PDFDocument* doc,
++static void writePageImage(cups_raster_t *raster, PDFInner::PDFDocument* doc,
    int pageNo)
  {
    ConvertLineFunc convertLine;
@@ -134,7 +134,7 @@ index e8af184f..77a211d7 100755
  }
  
 -static void outPage(poppler::document *doc, int pageNo,
-+static void outPage(FPDFInner::PDFDocument* doc, int pageNo,
++static void outPage(PDFInner::PDFDocument* doc, int pageNo,
    cups_raster_t *raster)
  {
    int rotate = 0;
@@ -202,7 +202,7 @@ index e8af184f..77a211d7 100755
    cmsSetLogErrorHandler(lcmsErrorHandler);
    parseOpts(argc, argv);
  
-@@ -2002,7 +2004,14 @@ int main(int argc, char *argv[]) {
+@@ -2002,7 +2004,13 @@ int main(int argc, char *argv[]) {
        }
      }
      close(fd);
@@ -214,11 +214,10 @@ index e8af184f..77a211d7 100755
 +        doc->LoadDocument(wName, "");
 +        delete[] wName;
 +    }
-+    doc = FPDF_LoadDocument(name, NULL);
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2024,27 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2023,27 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -250,7 +249,7 @@ index e8af184f..77a211d7 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,15 +2141,24 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2140,24 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -278,7 +277,7 @@ index e8af184f..77a211d7 100755
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2174,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2173,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
