@@ -21,7 +21,7 @@ index e8af184f..77a211d7 100755
    bool swap_margin_x = false;
    bool swap_margin_y = false;
    bool allocLineBuf = false;
-+  bool cupsManualCopies = false;
++  bool cupsManualCopies = true;
 +  static int g_pdfSdkCount = 0;
    ConvertLineFunc convertLineOdd;
    ConvertLineFunc convertLineEven;
@@ -32,8 +32,8 @@ index e8af184f..77a211d7 100755
      }
 +    attr = ppdFindAttr(ppd, "cupsManualCopies", NULL);
 +    if (attr != NULL && attr->value != NULL) {
-+      if (strcasecmp(attr->value, "true") == 0) {
-+        cupsManualCopies = true;
++      if (strcasecmp(attr->value, "true") != 0) {
++        cupsManualCopies = false;
 +      }
 +    }
      if (header.Duplex) {
