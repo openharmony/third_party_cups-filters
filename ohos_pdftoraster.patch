@@ -126,8 +126,12 @@ index e8af184f..7305c12e 100755
      }
    }
 -  free(colordata);
-+  if (colordata) free(colordata);
-+  if (newdata) free(newdata);
++  if (colordata == newdata) {
++     if (colordata) free(colordata);
++  } else {
++     if (colordata) free(colordata);
++     if (newdata) free(newdata);
++  }
 +  if (buffer) delete(buffer);
 +  newBuffer = NULL;
    if (allocLineBuf) delete[] lineBuf;
