@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..7305c12e 100755
+index e8af184f..7fcfcc90 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -121,7 +121,7 @@ index e8af184f..7305c12e 100755
     rowsize=header.cupsWidth*3;
     colordata=newdata;
       break;
-@@ -1645,11 +1650,14 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1645,11 +1650,18 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
        }
      }
    }
@@ -142,7 +142,7 @@ index e8af184f..7305c12e 100755
    cups_raster_t *raster)
  {
    int rotate = 0;
-@@ -1661,28 +1669,21 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1661,28 +1673,21 @@ static void outPage(poppler::document *doc, int pageNo,
    int imageable_area_fit = 0;
    int i;
  
@@ -180,7 +180,7 @@ index e8af184f..7305c12e 100755
    if (l < 0) l = -l;
    if (rotate == 90 || rotate == 270)
      header.PageSize[0] = (unsigned)l;
-@@ -1831,8 +1832,8 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1831,8 +1836,8 @@ static void outPage(poppler::document *doc, int pageNo,
    }
  
    if (imageable_area_fit == 0) {
@@ -191,7 +191,7 @@ index e8af184f..7305c12e 100755
    } else {
      bitmapoffset[0] = 0;
      bitmapoffset[1] = 0;
-@@ -1972,11 +1973,12 @@ static void setPopplerColorProfile()
+@@ -1972,11 +1977,12 @@ static void setPopplerColorProfile()
  }
  
  int main(int argc, char *argv[]) {
@@ -206,7 +206,7 @@ index e8af184f..7305c12e 100755
    cmsSetLogErrorHandler(lcmsErrorHandler);
    parseOpts(argc, argv);
  
-@@ -2002,7 +2004,13 @@ int main(int argc, char *argv[]) {
+@@ -2002,7 +2008,13 @@ int main(int argc, char *argv[]) {
        }
      }
      close(fd);
@@ -221,7 +221,7 @@ index e8af184f..7305c12e 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2023,27 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2027,27 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -244,16 +244,16 @@ index e8af184f..7305c12e 100755
 -  header.NumCopies = deviceCopies;
 +  if (cupsManualCopies) {
 +    fprintf(stderr, "ERROR: Using cups to handle the number of printed copies\n");
-+    header.NumCopies = atoi(argv[4]);   
++    header.NumCopies = atoi(argv[4]);
 +  } else {
 +    fprintf(stderr, "ERROR: The printer handles the number of printed copies\n");
-+    header.NumCopies = 1;   
++    header.NumCopies = 1;
 +  }
 +  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,15 +2140,24 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2144,23 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
@@ -277,11 +277,10 @@ index e8af184f..7305c12e 100755
 +  if (g_pdfSdkCount == 0) {
 +    sdk.Release();
 +  }
-+  
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2173,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2176,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
