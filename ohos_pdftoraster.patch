@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..7fcfcc90 100755
+index e8af184f..12e5e466 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -221,7 +221,7 @@ index e8af184f..7fcfcc90 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2027,27 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2027,24 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -242,28 +242,28 @@ index e8af184f..7fcfcc90 100755
 +  fprintf(stderr, "ERROR: npages: %d\n", npages);
    /* fix NumCopies, Collate ccording to PDFTOPDFComments */
 -  header.NumCopies = deviceCopies;
-+  if (cupsManualCopies) {
-+    fprintf(stderr, "ERROR: Using cups to handle the number of printed copies\n");
-+    header.NumCopies = atoi(argv[4]);
-+  } else {
-+    fprintf(stderr, "ERROR: The printer handles the number of printed copies\n");
-+    header.NumCopies = 1;
-+  }
++
++  fprintf(stderr, "ERROR: set number of printed copies\n");
++  header.NumCopies = atoi(argv[4]);
++
 +  fprintf(stderr, "ERROR: NumCopies: %d\n", header.NumCopies);
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,15 +2144,23 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2141,25 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
--    for (i = 1;i <= npages;i++) {
--      outPage(doc,i,raster);
-+    for (int j = 0; j < header.NumCopies; j++) {
-+      for (i = 1;i <= npages;i++) {
-+        outPage(doc,i,raster);
-+      }
-     }
+-    for (i = 1; i <= npages; i++) {
+-      outPage(doc, i, raster);
+-    }
++      int copies = header.NumCopies;
++      do {
++          for (i = 1; i <= npages; i++) {
++              outPage(doc, i, raster);
++          }
++          --copies;
++      } while (cupsManualCopies && copies > 0);
    } else
      fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
  
@@ -280,7 +280,7 @@ index e8af184f..7fcfcc90 100755
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2176,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2175,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
