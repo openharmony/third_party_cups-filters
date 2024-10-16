@@ -254,8 +254,8 @@ index e8af184f..12e5e466 100755
    }
    selectConvertFunc(raster);
    if(doc != NULL){
--    for (i = 1; i <= npages; i++) {
--      outPage(doc, i, raster);
+-    for (i = 1;i <= npages;i++) {
+-      outPage(doc,i,raster);
 -    }
 +      int copies = header.NumCopies;
 +      do {
