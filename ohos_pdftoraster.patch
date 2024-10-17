@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..12e5e466 100755
+index e8af184f..a7ae6173 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -250,20 +250,27 @@ index e8af184f..12e5e466 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2119,15 +2141,25 @@ int main(int argc, char *argv[]) {
+@@ -2119,15 +2141,33 @@ int main(int argc, char *argv[]) {
    }
    selectConvertFunc(raster);
    if(doc != NULL){
 -    for (i = 1;i <= npages;i++) {
 -      outPage(doc,i,raster);
--    }
++    if (cupsManualCopies) {
 +      int copies = header.NumCopies;
-+      do {
-+          for (i = 1; i <= npages; i++) {
-+              outPage(doc, i, raster);
-+          }
-+          --copies;
-+      } while (cupsManualCopies && copies > 0);
++      header.NumCopies = 1;
++      fprintf(stderr, "DEBUG: cups handle copies.\n");
++      for (int c = 1; c <= copies; c++) {
++        for (i = 1; i <= npages; i++) {
++          outPage(doc, i, raster);
++        }
++      }
++    } else {
++      fprintf(stderr, "DEBUG: printer handle copies.\n");
++      for (i = 1; i <= npages; i++) {
++        outPage(doc, i, raster);
++      }
+     }
    } else
      fprintf(stderr, "DEBUG: Input is empty, outputting empty file.\n");
  
@@ -280,7 +287,7 @@ index e8af184f..12e5e466 100755
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2175,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2183,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
