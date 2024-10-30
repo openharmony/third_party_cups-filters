@@ -22,12 +22,11 @@
         "rom": "",
         "ram": "",
         "deps": {
-            "components": [],
+            "components": [ "zlib" ],
             "third_party": [
                 "cups",
                 "libpng",
-                "libjpeg-turbo",
-                "zlib"
+                "libjpeg-turbo"
             ]
         },
         "build": {
