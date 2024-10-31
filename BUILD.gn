@@ -112,9 +112,8 @@ ohos_shared_library("cupsfilters") {
     "//third_party/cups:cups",
     "//third_party/libjpeg-turbo:turbojpeg",
     "//third_party/libpng:libpng",
-    "//third_party/zlib:libz",
   ]
-
+  external_deps = [ "zlib:libz" ]
   install_enable = true
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
