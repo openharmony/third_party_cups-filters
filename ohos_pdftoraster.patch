@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..fc6020a5 100755
+index e8af184f..662bc473 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -228,7 +228,7 @@ index e8af184f..fc6020a5 100755
      close(fd);
 -    doc=poppler::document::load_from_file(name,"","");
 +    if (doc != nullptr) {
-+        size_t len = strlen(argv[6]) + 1;
++        size_t len = mbstowcs(NULL, name, 0) + 1;
 +        wchar_t *wName = new wchar_t[len];
 +        mbstowcs(wName, name, len);
 +        doc->LoadDocument(wName, "");
