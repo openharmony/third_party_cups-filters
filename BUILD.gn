@@ -14,7 +14,6 @@
 import("//build/ohos.gni")
 import("//third_party/cups/cups.gni")
 
-CUPS_CODE_DIR = "//third_party/cups/cups-2.4.0"
 CUPS_FILTERS_CODE_DIR = "//third_party/cups-filters"
 SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
@@ -30,8 +29,7 @@ group("third_party_cupsfilters") {
 
 config("cups_filters_config") {
   include_dirs = [
-    ".",
-    "$CUPS_CODE_DIR",
+    "$CUPS_FILTERS_CODE_DIR/",
     "$CUPS_FILTERS_CODE_DIR/cupsfilters/",
     "$CUPS_FILTERS_CODE_DIR/filter/",
   ]
@@ -107,13 +105,15 @@ ohos_shared_library("cupsfilters") {
 
   public_configs = [ ":cups_filters_config" ]
 
-  deps = [
-    ":cupsfilters_action",
-    "//third_party/cups:cups",
-    "//third_party/libjpeg-turbo:turbojpeg",
-    "//third_party/libpng:libpng",
+  deps = [ ":cupsfilters_action" ]
+
+  public_external_deps = [
+    "cups:cups",
+    "libjpeg-turbo:turbojpeg",
+    "libpng:libpng",
+    "zlib:libz",
   ]
-  external_deps = [ "zlib:libz" ]
+
   install_enable = true
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
@@ -125,10 +125,9 @@ ohos_executable("imagetoraster") {
     "$CUPS_FILTERS_CODE_DIR/filter/imagetoraster.c",
   ]
 
-  deps = [
-    "//third_party/cups:cups",
-    "//third_party/cups-filters:cupsfilters",
-  ]
+  deps = [ ":cupsfilters" ]
+
+  public_external_deps = [ "cups:cups" ]
 
   public_configs = [ ":cups_filters_config" ]
 
