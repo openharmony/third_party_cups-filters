@@ -23,9 +23,30 @@ group("third_party_cupsfilters") {
     ":cupsfilters",
     ":cupsfilters.convs",
     ":cupsfilters.types",
+    ":imagetopdf",
     ":imagetoraster",
   ]
 }
+
+_cflags = [
+  "-D_PPD_DEPRECATED=",
+  "-Wextra",
+  "-Wall",
+  "-Wno-unused-parameter",
+  "-Wno-unused-function",
+  "-Wno-unused-variable",
+  "-Wno-unused-value",
+  "-Wno-sign-compare",
+  "-Wno-missing-field-initializers",
+
+  "-Wno-strlcpy-strlcat-size",
+  "-Wtautological-pointer-compare",
+  "-Wimplicit-fallthrough",
+  "-Wno-implicit-function-declaration",
+  "-w",
+  "-D_FORTIFY_SOURCE=2",
+  "-fstack-protector-all",
+]
 
 config("cups_filters_config") {
   include_dirs = [
@@ -36,25 +57,15 @@ config("cups_filters_config") {
 
   defines = cups_defines
 
-  cflags = [
-    "-D_PPD_DEPRECATED=",
-    "-Wextra",
-    "-Wall",
-    "-Wno-unused-parameter",
-    "-Wno-unused-function",
-    "-Wno-unused-variable",
-    "-Wno-unused-value",
-    "-Wno-sign-compare",
-    "-Wno-missing-field-initializers",
+  cflags = _cflags
+}
 
-    "-Wno-strlcpy-strlcat-size",
-    "-Wtautological-pointer-compare",
-    "-Wimplicit-fallthrough",
-    "-Wno-implicit-function-declaration",
-    "-w",
-    "-D_FORTIFY_SOURCE=2",
-    "-fstack-protector-all",
-  ]
+config("imagetopdf_config") {
+  include_dirs = [ "$CUPS_FILTERS_CODE_DIR/filter/" ]
+
+  defines = cups_defines
+
+  cflags = _cflags
 }
 
 action("cupsfilters_action") {
@@ -130,6 +141,24 @@ ohos_executable("imagetoraster") {
   public_external_deps = [ "cups:cups" ]
 
   public_configs = [ ":cups_filters_config" ]
+
+  module_install_dir = "$cups_serverbin_dir/filter"
+  install_enable = true
+  subsystem_name = "$SUBSYSTEM_NAME"
+  part_name = "$PART_NAME"
+}
+
+ohos_executable("imagetopdf") {
+  sources = [
+    "$CUPS_FILTERS_CODE_DIR/filter/common.c",
+    "$CUPS_FILTERS_CODE_DIR/filter/imagetopdf.c",
+  ]
+
+  deps = [ ":cupsfilters" ]
+
+  public_external_deps = [ "cups:cups" ]
+
+  configs = [ ":imagetopdf_config" ]
 
   module_install_dir = "$cups_serverbin_dir/filter"
   install_enable = true
