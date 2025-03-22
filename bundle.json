@@ -24,13 +24,11 @@
         "deps": {
             "components": [ 
                 "zlib",
-                "cups"
-             ],
-            "third_party": [
                 "cups",
                 "libpng",
                 "libjpeg-turbo"
-            ]
+             ],
+            "third_party": []
         },
         "build": {
             "sub_component": [

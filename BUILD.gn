@@ -118,7 +118,7 @@ ohos_shared_library("cupsfilters") {
 
   deps = [ ":cupsfilters_action" ]
 
-  public_external_deps = [
+  external_deps = [
     "cups:cups",
     "libjpeg-turbo:turbojpeg",
     "libpng:libpng",
@@ -138,7 +138,7 @@ ohos_executable("imagetoraster") {
 
   deps = [ ":cupsfilters" ]
 
-  public_external_deps = [ "cups:cups" ]
+  external_deps = [ "cups:cups" ]
 
   public_configs = [ ":cups_filters_config" ]
 
@@ -156,7 +156,7 @@ ohos_executable("imagetopdf") {
 
   deps = [ ":cupsfilters" ]
 
-  public_external_deps = [ "cups:cups" ]
+  external_deps = [ "cups:cups" ]
 
   configs = [ ":imagetopdf_config" ]
 
