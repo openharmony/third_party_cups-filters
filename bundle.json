@@ -18,16 +18,19 @@
         "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [ "standard" ],
+        "adapted_system_type": [
+            "standard"
+        ],
         "rom": "",
         "ram": "",
         "deps": {
-            "components": [ "zlib" ],
-            "third_party": [
+            "components": [
+                "zlib",
                 "cups",
                 "libpng",
                 "libjpeg-turbo"
-            ]
+            ],
+            "third_party": []
         },
         "build": {
             "sub_component": [
@@ -37,20 +40,20 @@
                 {
                     "name": "//third_party/cups-filters:cupsfilters",
                     "header": {
-                      "header_files": [
-                        "colord.h",
-                        "colormanager.h",
-                        "driver.h",
-                        "image-private.h",
-                        "image-sgi.h",
-                        "image.h",
-                        "ipp.h",
-                        "kmdevices.h",
-                        "pdftoippprinter.h",
-                        "ppdgenerator.h",
-                        "raster.h"
-                      ],
-                      "header_base": "//third_party/cups-filters/cupsfilters"
+                        "header_files": [
+                            "colord.h",
+                            "colormanager.h",
+                            "driver.h",
+                            "image-private.h",
+                            "image-sgi.h",
+                            "image.h",
+                            "ipp.h",
+                            "kmdevices.h",
+                            "pdftoippprinter.h",
+                            "ppdgenerator.h",
+                            "raster.h"
+                        ],
+                        "header_base": "//third_party/cups-filters/cupsfilters"
                     }
                 }
             ],
