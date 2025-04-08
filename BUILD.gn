@@ -71,7 +71,7 @@ config("imagetopdf_config") {
 action("cupsfilters_action") {
   script = "//third_party/cups-filters/install.py"
   outputs = [ "${target_gen_dir}/cupsfilters.convs" ]
-  inputs = [ "//third_party/cups/cups-2.4.7-source.tar.gz" ]
+  inputs = [ "//third_party/cups/cups-2.4.0-source.tar.gz" ]
   gen_path = rebase_path("${target_gen_dir}", root_build_dir)
   source_path = rebase_path("//third_party/cups-filters", root_build_dir)
   args = [
