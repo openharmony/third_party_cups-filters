@@ -19,6 +19,9 @@ SUBSYSTEM_NAME = "thirdparty"
 PART_NAME = "cups-filters"
 
 group("third_party_cupsfilters") {
+  external_deps = [
+    "cups:cups"
+  ]
   deps = [
     ":cupsfilters",
     ":cupsfilters.convs",
@@ -71,7 +74,7 @@ config("imagetopdf_config") {
 action("cupsfilters_action") {
   script = "//third_party/cups-filters/install.py"
   outputs = [ "${target_gen_dir}/cupsfilters.convs" ]
-  inputs = [ "//third_party/cups/cups-2.4.0-source.tar.gz" ]
+  inputs = []
   gen_path = rebase_path("${target_gen_dir}", root_build_dir)
   source_path = rebase_path("//third_party/cups-filters", root_build_dir)
   args = [
@@ -168,7 +171,10 @@ ohos_executable("imagetopdf") {
 
 ohos_prebuilt_etc("cupsfilters.convs") {
   source = "${target_gen_dir}/cupsfilters.convs"
-  deps = [ ":cupsfilters_action" ]
+  deps = [
+    ":cupsfilters_action",
+    ":cupsfilters",
+  ]
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
@@ -176,7 +182,10 @@ ohos_prebuilt_etc("cupsfilters.convs") {
 
 ohos_prebuilt_etc("cupsfilters.types") {
   source = "mime/cupsfilters.types"
-  deps = [ ":cupsfilters_action" ]
+  deps = [
+    ":cupsfilters_action",
+    ":cupsfilters",
+  ]
   relative_install_dir = "cups/share/mime"
   subsystem_name = "$SUBSYSTEM_NAME"
   part_name = "$PART_NAME"
