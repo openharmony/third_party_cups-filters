@@ -41,7 +41,6 @@ def do_patch(target_dir):
     patch_file = [
         "ohos_pdftoraster.patch",
         "ohos_ghostscript.patch",
-        "ohos_pdftopdf.patch",
         "backport-CVE-2023-24805.patch",
     ]
 
