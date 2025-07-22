@@ -19,12 +19,14 @@ import subprocess
 import sys
 import shutil
 
-def copy_file(dir, dest):
+
+def copy_file(src_dir, dest_dir):
     src_name = '/cupsfilters.convs.in'
     dest_name = '/cupsfilters.convs'
-    src_file = dir + src_name
-    dest_file = dest + dest_name
+    src_file = src_dir + src_name
+    dest_file = dest_dir + dest_name
     shutil.copy2(src_file, dest_file)
+
 
 def apply_patch(patch_file, target_dir):
     try:
