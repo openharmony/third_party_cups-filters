@@ -44,6 +44,7 @@ def do_patch(target_dir):
         "ohos_pdftoraster.patch",
         "ohos_ghostscript.patch",
         "backport-CVE-2023-24805.patch",
+        "ohos_pdftopdf.patch",   # PointerHolder and replaceOrRemoveKey are removed in qpdf 12.
     ]
 
     for patch in patch_file:
