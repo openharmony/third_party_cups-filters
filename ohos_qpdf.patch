@@ -1,3 +1,15 @@
+diff --git a/filter/pdf.cxx b/filter/pdf.cxx
+index 68b1af91..2e888915 100644
+--- a/filter/pdf.cxx
++++ b/filter/pdf.cxx
+@@ -26,6 +26,7 @@
+ #include <qpdf/QPDFWriter.hh>
+ #include <qpdf/QPDFAcroFormDocumentHelper.hh>
+ #include <qpdf/QPDFPageDocumentHelper.hh>
++#include <qpdf/PointerHolder.hh>
+ 
+ /*
+  * Useful reference:
 diff --git a/filter/pdftopdf/qpdf_pdftopdf_processor.cc b/filter/pdftopdf/qpdf_pdftopdf_processor.cc
 index 2420e1f4..7c7a7676 100644
 --- a/filter/pdftopdf/qpdf_pdftopdf_processor.cc
@@ -74,4 +86,28 @@ index cc33f43a..63b8b78e 100644
 +#include <qpdf/PointerHolder.hh>
  #include "qpdf_tools.h"
  #include "qpdf_pdftopdf.h"
+ 
+diff --git a/filter/rastertopdf.cpp b/filter/rastertopdf.cpp
+index ad5dd34c..211bc016 100644
+--- a/filter/rastertopdf.cpp
++++ b/filter/rastertopdf.cpp
+@@ -49,6 +49,7 @@
+ #include <qpdf/Pl_RunLength.hh>
+ #include <qpdf/Pl_DCT.hh>
+ #endif
++#include <qpdf/PointerHolder.hh>
+ 
+ #ifdef USE_LCMS1
+ #include <lcms.h>
+diff --git a/filter/urftopdf.cpp b/filter/urftopdf.cpp
+index 4e7f6535..0e018836 100644
+--- a/filter/urftopdf.cpp
++++ b/filter/urftopdf.cpp
+@@ -38,6 +38,7 @@
+ 
+ #include <qpdf/Pl_Flate.hh>
+ #include <qpdf/Pl_Buffer.hh>
++#include <qpdf/PointerHolder.hh>
+ 
+ #include "unirast.h"
  
