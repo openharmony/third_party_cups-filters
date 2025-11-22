@@ -1,0 +1,14 @@
+diff --git a/filter/pdftopdf/pdftopdf.cc b/filter/pdftopdf/pdftopdf.cc
+index 7a684a26..c9957d25 100644
+--- a/filter/pdftopdf/pdftopdf.cc
++++ b/filter/pdftopdf/pdftopdf.cc
+@@ -1112,6 +1112,9 @@ int main(int argc,char **argv)
+ 
+     cupsMarkOptions(ppd,num_options,options);
+ 
++    const char* ppdPageSize = cupsGetOption("PageSize", num_options, options);
++    ppdMarkOption(ppd, "PageSize", ppdPageSize);
++
+     getParameters(ppd,num_options,options,param);
+     calculate(ppd,param);
+ 
