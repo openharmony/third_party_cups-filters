@@ -35,7 +35,7 @@ def apply_patch(patch_file, target_dir):
         patch_cmd = ['patch', '-p1', "--fuzz=0", "--no-backup-if-mismatch", '-i', patch_file, '-d', target_dir]
         subprocess.run(patch_cmd, check=True)
     except Exception as e:
-        print("apply_patch error!")
+        print(f"apply_patch error! patch: {patch_file}")
         return
 
 
@@ -47,6 +47,7 @@ def do_patch(target_dir):
         "backport-CVE-2025-64503.patch",
         "ohos_qpdf.patch",   # PointerHolder and replaceOrRemoveKey are removed in qpdf 12.
         "ohos_pdftopdf.patch",  # Fix cupsMarkOptions error for pagesize containing Custom. in cups-2.4.12
+        "backport-CVE-2025-57812.patch",
     ]
 
     for patch in patch_file:
