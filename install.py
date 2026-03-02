@@ -44,7 +44,7 @@ def do_patch(target_dir):
         "ohos_pdftoraster.patch",
         "ohos_ghostscript.patch",
         "backport-CVE-2023-24805.patch",
-        "backport-CVE-2025-64503.patch"
+        "backport-CVE-2025-64503.patch",
         "backport-CVE-2025-57812.patch",
     ]
 
