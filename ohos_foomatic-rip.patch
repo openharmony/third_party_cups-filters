@@ -1,13 +1,22 @@
 diff --git a/filter/foomatic-rip/foomaticrip.c b/filter/foomatic-rip/foomaticrip.c
-index 93b026ef..bc94476a 100644
+index 93b026ef..8378c99d 100644
 --- a/filter/foomatic-rip/foomaticrip.c
 +++ b/filter/foomatic-rip/foomaticrip.c
+@@ -175,7 +175,7 @@ char cupsfilterpath[PATH_MAX] = "/usr/local/lib/cups/filter:"
+                                 "/opt/cups/filter:"
+                                 "/usr/lib/cups/filter";
+
+-char modern_shell[] = SHELL;
++char modern_shell[PATH_MAX] = SHELL;
+
+ void config_set_option(const char *key, const char *value)
+ {
 @@ -193,7 +193,7 @@ void config_set_option(const char *key, const char *value)
      else if (strcmp(key, "cupsfilterpath") == 0)
          strlcpy(cupsfilterpath, value, PATH_MAX);
      else if (strcmp(key, "preferred_shell") == 0)
 -        strlcpy(modern_shell, value, 32);
-+        strlcpy(modern_shell, value, sizeof(modern_shell));
++        strlcpy(modern_shell, value, PATH_MAX);
      else if (strcmp(key, "gspath") == 0)
          strlcpy(gspath, value, PATH_MAX);
      else if (strcmp(key, "echo") == 0)
