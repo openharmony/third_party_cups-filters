@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..bd00a478 100755
+index e8af184f..cf6ddb9a 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -159,7 +159,7 @@ index e8af184f..bd00a478 100755
 -   newdata = removeAlpha((unsigned char *)im.const_data(),newdata,im.width(),im.height());
 -   pixel_count=im.width()*im.height();
 +   buffer = doc->GetPageBitMapBuffer(pageNo-1, -bitmapoffset[0], -bitmapoffset[1], fullPageBitmapWidth,
-+    fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF, 1);
++    fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF, 0);
 +   newBuffer = &((*buffer)[0]);
 +   newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +   newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
