@@ -1,5 +1,5 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..528181ee 100755
+index e8af184f..cf6ddb9a 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
 @@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -122,7 +122,7 @@ index e8af184f..528181ee 100755
 -    onebitdata=(unsigned char *)malloc(sizeof(char)*bytesPerLine*im.height());
 -    onebitpixel(graydata,onebitdata,im.width(),im.height());
 +    buffer = doc->GetPageBitMapBuffer(pageNo-1, -bitmapoffset[0], -bitmapoffset[1], fullPageBitmapWidth,
-+      fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++      fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF, 0);
 +    newBuffer = &((*buffer)[0]);
 +    newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +    newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
@@ -141,7 +141,7 @@ index e8af184f..528181ee 100755
 -      graydata=(unsigned char *)malloc(sizeof(char)*im.width()*im.height());
 +    } else {
 +      buffer = doc->GetPageBitMapBuffer(pageNo-1, -bitmapoffset[0], -bitmapoffset[1], fullPageBitmapWidth,
-+        fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++        fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF, 0);
 +      newBuffer = &((*buffer)[0]);
 +      newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +      newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
@@ -159,7 +159,7 @@ index e8af184f..528181ee 100755
 -   newdata = removeAlpha((unsigned char *)im.const_data(),newdata,im.width(),im.height());
 -   pixel_count=im.width()*im.height();
 +   buffer = doc->GetPageBitMapBuffer(pageNo-1, -bitmapoffset[0], -bitmapoffset[1], fullPageBitmapWidth,
-+    fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF);
++    fullPageBitmapHeight, 3, header.cupsWidth, header.cupsHeight, 0, 0, 0xFFFFFFFF, 0);
 +   newBuffer = &((*buffer)[0]);
 +   newdata = (unsigned char *)malloc(sizeof(char)*3*header.cupsWidth*header.cupsHeight);
 +   newdata = removeAlpha(newBuffer, newdata, header.cupsWidth, header.cupsHeight);
@@ -236,7 +236,15 @@ index e8af184f..528181ee 100755
    /* write page image */
    writePageImage(raster,doc,pageNo);
  }
-@@ -1972,7 +2002,9 @@ static void setPopplerColorProfile()
+@@ -1941,6 +1971,7 @@ static void setPopplerColorProfile()
+     break;
+   case CUPS_CSPACE_SW:
+     colorProfile = sgray_profile();
++    popplerColorProfile = colorProfile; // colordata is alreay grayscale data under the CUPS_CSPACE_SW color space.
+     break;
+   case CUPS_CSPACE_RGB:
+   case CUPS_CSPACE_K:
+@@ -1972,7 +2003,9 @@ static void setPopplerColorProfile()
  }
  
  int main(int argc, char *argv[]) {
@@ -247,7 +255,7 @@ index e8af184f..528181ee 100755
    int i;
    int npages=0;
    cups_raster_t *raster;
-@@ -2002,7 +2034,20 @@ int main(int argc, char *argv[]) {
+@@ -2002,7 +2035,20 @@ int main(int argc, char *argv[]) {
        }
      }
      close(fd);
@@ -269,7 +277,7 @@ index e8af184f..528181ee 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2060,21 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2061,21 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -293,7 +301,7 @@ index e8af184f..528181ee 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2127,7 +2179,13 @@ int main(int argc, char *argv[]) {
+@@ -2127,7 +2180,13 @@ int main(int argc, char *argv[]) {
  
    cupsRasterClose(raster);
  
@@ -308,7 +316,7 @@ index e8af184f..528181ee 100755
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2201,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2202,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
