@@ -1,0 +1,141 @@
+diff --git a/cupsfilters/image-zoom.c b/cupsfilters/image-zoom.c
+index 5896665f..e19e22bc 100644
+--- a/cupsfilters/image-zoom.c
++++ b/cupsfilters/image-zoom.c
+@@ -25,7 +25,7 @@
+  */
+ 
+ #include "image-private.h"
+-
++#include <limits.h>
+ 
+ /*
+  * Local functions...
+@@ -90,8 +90,10 @@ _cupsImageZoomNew(
+   cups_izoom_t	*z;			/* New zoom record */
+   int		flip;			/* Flip on X axis? */
+ 
++  if (xsize == INT_MIN)
++    return (NULL);
+ 
+-  if (xsize > CUPS_IMAGE_MAX_WIDTH ||
++  if (abs(xsize) > CUPS_IMAGE_MAX_WIDTH ||
+       ysize > CUPS_IMAGE_MAX_HEIGHT ||
+       (xc1 - xc0) > CUPS_IMAGE_MAX_WIDTH ||
+       (yc1 - yc0) > CUPS_IMAGE_MAX_HEIGHT)
+diff --git a/filter/imagetoraster.c b/filter/imagetoraster.c
+index fcc6cb1e..be9abe03 100644
+--- a/filter/imagetoraster.c
++++ b/filter/imagetoraster.c
+@@ -38,7 +38,7 @@
+ #include <math.h>
+ #include <signal.h>
+ #include <string.h>
+-
++#include <limits.h>
+ 
+ /*
+  * Globals...
+@@ -1144,23 +1144,57 @@ main(int  argc,				/* I - Number of command-line arguments */
+     * Set the bitmap size...
+     */
+ 
+-    header.cupsWidth  = width * header.HWResolution[0] / 72.0;
+-    header.cupsHeight = length * header.HWResolution[1] / 72.0;
++	unsigned long long width_check = (unsigned long long)width * header.HWResolution[0];
++	unsigned long long height_check = (unsigned long long)length * header.HWResolution[1];
++	if (width_check > UINT_MAX || height_check > UINT_MAX)
++	{
++	  fputs("ERROR: Integer overflow in cupsWidth/cupsHeight calculation.\n", stderr);
++	  ppdClose(ppd);
++	  return (1);
++	}
++    header.cupsWidth  = (unsigned)(width_check / 72.0);
++	header.cupsHeight = (unsigned)(height_check / 72.0);
+   } else {
+    /*
+     * Set the bitmap size...
+     */
+ 
+-    header.cupsWidth  = (Orientation & 1 ? yprint : xprint) *
++	unsigned long long cups_width_check = (unsigned long long)(Orientation & 1 ? yprint : xprint) *
+       header.HWResolution[0];
+-    header.cupsHeight = (Orientation & 1 ? xprint : yprint) *
++	unsigned long long cups_height_check = (unsigned long long)(Orientation & 1 ? xprint : yprint) *
+       header.HWResolution[1];
++	if (cups_width_check > UINT_MAX || cups_height_check > UINT_MAX)
++	{
++	  fputs("ERROR: Integer overflow in cupsWidth/cupsHeight calculation.\n", stderr);
++	  ppdClose(ppd);
++	  return (1);
++	}
++    header.cupsWidth  = (unsigned)cups_width_check;
++	header.cupsHeight = (unsigned)cups_height_check;
+   }
+-  header.cupsBytesPerLine = (header.cupsBitsPerPixel *
+-			     header.cupsWidth + 7) / 8;
++
++  unsigned long long bpl_check = (unsigned long long)header.cupsBitsPerPixel *
++			     header.cupsWidth + 7;
++  if (bpl_check > UINT_MAX)
++  {
++	fputs("ERROR: Integer overflow in cupsBytesPerLine calculation.\n", stderr);
++	ppdClose(ppd);
++	return (1);
++  }
++  header.cupsBytesPerLine = (unsigned)((bpl_check) / 8);
+ 
+   if (header.cupsColorOrder == CUPS_ORDER_BANDED)
+-    header.cupsBytesPerLine *= header.cupsNumColors;
++  {
++	unsigned long long bpl_banded = (unsigned long long)header.cupsBytesPerLine *
++			     header.cupsNumColors;
++	if (bpl_banded > UINT_MAX)
++	{
++	  fputs("ERROR: Integer overflow in cupsBytesPerLine (BANDED mode).\n", stderr);
++	  ppdClose(ppd);
++	  return (1);
++	}
++	header.cupsBytesPerLine = (unsigned)bpl_banded;
++  }
+ 
+   header.Margins[0] = PageLeft;
+   header.Margins[1] = PageBottom;
+@@ -1392,7 +1426,21 @@ main(int  argc,				/* I - Number of command-line arguments */
+   fprintf(stderr, "DEBUG: cupsColorSpace = %d\n", header.cupsColorSpace);
+   fprintf(stderr, "DEBUG: img->colorspace = %d\n", img->colorspace);
+ 
++  if (header.cupsBytesPerLine > UINT_MAX / 2)
++  {
++    fputs("ERROR: Integer overflow in row buffer allocation.\n", stderr);
++    cupsImageClose(img);
++    ppdClose(ppd);
++    return (1);
++  }
+   row = malloc(2 * header.cupsBytesPerLine);
++  if (row == NULL)
++  {
++    fputs("ERROR: Unable to allocate memory for row buffer.\n", stderr);
++    cupsImageClose(img);
++    ppdClose(ppd);
++    return (1);
++  }
+   ras = cupsRasterOpen(1, CUPS_RASTER_WRITE);
+ 
+   for (i = 0, page = 1; i < Copies; i ++)
+@@ -1437,6 +1485,15 @@ main(int  argc,				/* I - Number of command-line arguments */
+ 	    z = _cupsImageZoomNew(img, xc0, yc0, xc1, yc1, xtemp, ytemp,
+ 	                          Orientation & 1, zoom_type);
+ 
++		  if (z == NULL)
++		  {
++			  fputs("ERROR: Unable to create image zoom record.\n", stderr);
++			  free(row);
++  			  cupsRasterClose(ras);
++  			  cupsImageClose(img);
++  			  ppdClose(ppd);
++             return (1);
++		  }
+          /*
+ 	  * Write leading blank space as needed...
+ 	  */
