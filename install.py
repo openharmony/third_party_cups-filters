@@ -50,6 +50,7 @@ def do_patch(target_dir):
         "backport-CVE-2025-57812.patch",
         "ohos_fix_integer_overflow.patch",
         "ohos_foomatic-rip.patch",
+        "ohos_imagetopdf.patch",
     ]
 
     for patch in patch_file:

@@ -1,0 +1,69 @@
+diff --git a/filter/imagetopdf.c b/filter/imagetopdf.c
+index 5355746a..00e10eee 100644
+--- a/filter/imagetopdf.c
++++ b/filter/imagetopdf.c
+@@ -25,6 +25,7 @@
+ #include <cupsfilters/image-private.h>
+ #include <math.h>
+ #include <ctype.h>
++#include <limits.h>
+ 
+ #if CUPS_VERSION_MAJOR < 1 \
+   || (CUPS_VERSION_MAJOR == 1 && CUPS_VERSION_MINOR < 2)
+@@ -1603,7 +1604,28 @@ main(int  argc,				/* I - Number of command-line arguments */
+   * Start sending the document with any commands needed...
+   */
+ 
+-  outPrologue(Copies*xpages*ypages+(EvenDuplex ? 1 : 0));
++  long long totalPagesLL = (long long)xpages * ypages;
++  if (totalPagesLL > INT_MAX) {
++    fprintf(stderr, "ERROR: Page count overflow: %d x %d\n", xpages, ypages);
++    exit(2);
++  }
++
++  totalPagesLL = totalPagesLL * Copies;
++  if (totalPagesLL > INT_MAX) {
++    fprintf(stderr, "ERROR: Total pages overflow: %d x %d x %d\n", Copies, xpages, ypages);
++    exit(2);
++  } 
++
++  if (EvenDuplex) {
++    if (totalPagesLL > INT_MAX - 1) {
++      fprintf(stderr, "ERROR: Too many pages: %lld\n", totalPagesLL);
++      exit(2);
++    }
++    totalPagesLL += 1;
++  }
++
++  int  totalPages = (int)totalPagesLL;
++  outPrologue(totalPages);
+ 
+  /*
+   * Output the pages...
+@@ -1749,12 +1771,24 @@ main(int  argc,				/* I - Number of command-line arguments */
+     int *contentsObjs;
+     int *imgObjs;
+ 
+-    if ((contentsObjs = malloc(sizeof(int)*xpages*ypages)) == NULL)
++    long long total_elements_ll = (long long)xpages * ypages;
++    if (total_elements_ll > INT_MAX) {
++      fprintf(stderr, "ERROR: Page count overflow: %d x %d\n", xpages, ypages);
++      exit(2);
++    }
++
++    long long alloc_size_ll = total_elements_ll * sizeof(int);
++    if (alloc_size_ll > INT_MAX) {
++      fprintf(stderr, "ERROR: Allocate size overflow");
++      exit(2);
++    }
++    int alloc_size = (int)alloc_size_ll;
++    if ((contentsObjs = malloc(alloc_size)) == NULL)
+     {
+       fprintf(stderr,"ERROR: Can't allocate contentsObjs\n");
+       exit(2);
+     }
+-    if ((imgObjs = malloc(sizeof(int)*xpages*ypages)) == NULL)
++    if ((imgObjs = malloc(alloc_size)) == NULL)
+     {
+       fprintf(stderr,"ERROR: Can't allocate imgObjs\n");
+       exit(2);
