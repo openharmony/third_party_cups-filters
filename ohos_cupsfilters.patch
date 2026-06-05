@@ -1,3 +1,75 @@
+diff --git a/cupsfilters/image-bmp.c b/cupsfilters/image-bmp.c
+index c726278f..81f0bdc0 100644
+--- a/cupsfilters/image-bmp.c
++++ b/cupsfilters/image-bmp.c
+@@ -76,7 +76,7 @@ _cupsImageReadBMP(
+   cups_ib_t	*in,			/* Input pixels */
+ 		*out,			/* Output pixels */
+ 		*ptr;			/* Pointer into pixels */
+-  cups_ib_t	colormap[256][4];	/* Colormap */
++  cups_ib_t	colormap[256][4] = {0};	/* Colormap */
+ 
+ 
+   (void)secondary;
+diff --git a/cupsfilters/image-gif.c b/cupsfilters/image-gif.c
+index c225dc70..36d4e43e 100644
+--- a/cupsfilters/image-gif.c
++++ b/cupsfilters/image-gif.c
+@@ -73,7 +73,7 @@ _cupsImageReadGIF(
+     const cups_ib_t *lut)		/* I - Lookup table for gamma/brightness */
+ {
+   unsigned char	buf[1024];		/* Input buffer */
+-  gif_cmap_t	cmap;			/* Colormap */
++  gif_cmap_t	cmap = {0};			/* Colormap */
+   int		i,			/* Looping var */
+ 		bpp,			/* Bytes per pixel */
+ 		gray,			/* Grayscale image? */
+diff --git a/cupsfilters/image-jpeg.c b/cupsfilters/image-jpeg.c
+index a93fe92d..98a19842 100644
+--- a/cupsfilters/image-jpeg.c
++++ b/cupsfilters/image-jpeg.c
+@@ -178,6 +178,17 @@ _cupsImageReadJPEG(
+   in  = malloc(img->xsize * cinfo.output_components);
+   out = malloc(img->xsize * cupsImageGetDepth(img));
+ 
++  if (!in || !out)
++  {
++    fprintf(stderr, "DEBUG: Failed to allocate memory for JPEG decoding.\n");
++    free(in);
++    free(out);
++
++    jpeg_destroy_decompress(&cinfo);
++    fclose(fp);
++    return (1);
++  }
++
+   jpeg_start_decompress(&cinfo);
+ 
+   while (cinfo.output_scanline < cinfo.output_height)
+diff --git a/cupsfilters/image-tiff.c b/cupsfilters/image-tiff.c
+index 5fe89071..1a784e13 100644
+--- a/cupsfilters/image-tiff.c
++++ b/cupsfilters/image-tiff.c
+@@ -332,6 +332,19 @@ _cupsImageReadTIFF(
+     out = malloc(img->ysize * bpp);
+   }
+ 
++  if (!in || !out)
++  {
++    fputs("DEBUG: Failed to allocate memory for TIFF decoding.\n", stderr);
++	  free(in);
++	  free(out);
++
++    _TIFFfree(scanline);
++	  TIFFClose(tif);
++	  
++	  fclose(fp);
++	  return (1);
++  }
++
+  /*
+   * Read the image.  This is greatly complicated by the fact that TIFF
+   * supports literally hundreds of different colorspaces and orientations,
 diff --git a/cupsfilters/image-zoom.c b/cupsfilters/image-zoom.c
 index 5896665f..e19e22bc 100644
 --- a/cupsfilters/image-zoom.c

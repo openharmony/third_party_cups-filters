@@ -48,7 +48,7 @@ def do_patch(target_dir):
         "ohos_qpdf.patch",   # PointerHolder and replaceOrRemoveKey are removed in qpdf 12.
         "ohos_pdftopdf.patch",  # Fix cupsMarkOptions error for pagesize containing Custom. in cups-2.4.12
         "backport-CVE-2025-57812.patch",
-        "ohos_fix_integer_overflow.patch",
+        "ohos_cupsfilters.patch",
         "ohos_foomatic-rip.patch",
         "ohos_imagetopdf.patch",
     ]
