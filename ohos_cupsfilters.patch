@@ -1,5 +1,5 @@
 diff --git a/cupsfilters/image-bmp.c b/cupsfilters/image-bmp.c
-index c726278f..81f0bdc0 100644
+index c726278f..3a3002ed 100644
 --- a/cupsfilters/image-bmp.c
 +++ b/cupsfilters/image-bmp.c
 @@ -76,7 +76,7 @@ _cupsImageReadBMP(
@@ -11,6 +11,46 @@ index c726278f..81f0bdc0 100644
  
  
    (void)secondary;
+@@ -312,8 +312,18 @@ _cupsImageReadBMP(
+ 
+             if (bit == 0xf0)
+ 	    {
+-              if (color < 0)
+-		temp = getc(fp);
++            if (color < 0)
++			{
++				temp = getc(fp);
++				if (temp == EOF)
++				{
++					fputs("DEBUG: Failed to read data!\n", stderr);
++    				free(in);
++					free(out);
++    				fclose(fp);
++    				return (1);
++				}
++			}
+ 	      else
+ 		temp = color;
+ 
+@@ -408,7 +418,17 @@ _cupsImageReadBMP(
+ 	    */
+ 
+             if (color < 0)
+-	      temp = getc(fp);
++			{
++				temp = getc(fp);
++				if (temp == EOF)
++				{
++					fputs("DEBUG: Failed to read data!\n", stderr);
++					free(in);
++					free(out);
++					fclose(fp);
++					return (1);
++				}
++			}
+ 	    else
+ 	      temp = color;
+ 
 diff --git a/cupsfilters/image-gif.c b/cupsfilters/image-gif.c
 index c225dc70..36d4e43e 100644
 --- a/cupsfilters/image-gif.c
@@ -46,6 +86,32 @@ index a93fe92d..98a19842 100644
    jpeg_start_decompress(&cinfo);
  
    while (cinfo.output_scanline < cinfo.output_height)
+diff --git a/cupsfilters/image-photocd.c b/cupsfilters/image-photocd.c
+index 073046ec..62e63d74 100644
+--- a/cupsfilters/image-photocd.c
++++ b/cupsfilters/image-photocd.c
+@@ -76,7 +76,7 @@ _cupsImageReadPhotoCD(
+   * Allocate and initialize...
+   */
+ 
+-  img->colorspace = (primary == CUPS_IMAGE_RGB_CMYK) ? CUPS_IMAGE_RGB : primary;
++  img->colorspace = (primary == CUPS_IMAGE_RGB_CMYK || primary == CUPS_IMAGE_CMYK) ? CUPS_IMAGE_RGB : primary;
+   img->xppi       = 200;
+   img->yppi       = 200;
+ 
+diff --git a/cupsfilters/image-sun.c b/cupsfilters/image-sun.c
+index 989d039f..605d8bc1 100644
+--- a/cupsfilters/image-sun.c
++++ b/cupsfilters/image-sun.c
+@@ -140,7 +140,7 @@ _cupsImageReadSunRaster(
+   if (scanwidth & 1)
+     scanwidth ++;
+ 
+-  if (ras_depth < 24 && ras_maplength == 0)
++  if (ras_depth < 8 && ras_maplength == 0)
+   {
+     img->colorspace = secondary;
+     in = malloc(img->xsize + 1);
 diff --git a/cupsfilters/image-tiff.c b/cupsfilters/image-tiff.c
 index 5fe89071..1a784e13 100644
 --- a/cupsfilters/image-tiff.c
