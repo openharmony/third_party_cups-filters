@@ -87,20 +87,24 @@ index a93fe92d..98a19842 100644
  
    while (cinfo.output_scanline < cinfo.output_height)
 diff --git a/cupsfilters/image-photocd.c b/cupsfilters/image-photocd.c
-index 073046ec..62e63d74 100644
+index 073046ec..07de8748 100644
 --- a/cupsfilters/image-photocd.c
 +++ b/cupsfilters/image-photocd.c
-@@ -76,7 +76,7 @@ _cupsImageReadPhotoCD(
+@@ -76,6 +76,12 @@ _cupsImageReadPhotoCD(
    * Allocate and initialize...
    */
  
--  img->colorspace = (primary == CUPS_IMAGE_RGB_CMYK) ? CUPS_IMAGE_RGB : primary;
-+  img->colorspace = (primary == CUPS_IMAGE_RGB_CMYK || primary == CUPS_IMAGE_CMYK) ? CUPS_IMAGE_RGB : primary;
++  if (primary == CUPS_IMAGE_CMYK)
++  {
++    fputs("DEBUG: colorspace is wrong!\n", stderr);
++    fclose(fp);
++    return (1);
++  }
+   img->colorspace = (primary == CUPS_IMAGE_RGB_CMYK) ? CUPS_IMAGE_RGB : primary;
    img->xppi       = 200;
    img->yppi       = 200;
- 
 diff --git a/cupsfilters/image-sun.c b/cupsfilters/image-sun.c
-index 989d039f..605d8bc1 100644
+index 989d039f..d085bc90 100644
 --- a/cupsfilters/image-sun.c
 +++ b/cupsfilters/image-sun.c
 @@ -140,7 +140,7 @@ _cupsImageReadSunRaster(
@@ -108,7 +112,7 @@ index 989d039f..605d8bc1 100644
      scanwidth ++;
  
 -  if (ras_depth < 24 && ras_maplength == 0)
-+  if (ras_depth < 8 && ras_maplength == 0)
++  if (ras_depth <= 8 && ras_maplength == 0)
    {
      img->colorspace = secondary;
      in = malloc(img->xsize + 1);
