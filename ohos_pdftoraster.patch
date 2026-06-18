@@ -1,8 +1,16 @@
 diff --git a/filter/pdftoraster.cxx b/filter/pdftoraster.cxx
-index e8af184f..cf6ddb9a 100755
+index e8af184f..de50a948 100755
 --- a/filter/pdftoraster.cxx
 +++ b/filter/pdftoraster.cxx
-@@ -49,12 +49,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+@@ -38,6 +38,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <limits.h>
+ #ifdef HAVE_CPP_POPPLER_VERSION_H
+ #include <poppler/cpp/poppler-version.h>
+ #endif
+@@ -49,12 +50,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  #include <cupsfilters/colormanager.h>
  #include <strings.h>
  #include <math.h>
@@ -17,7 +25,7 @@ index e8af184f..cf6ddb9a 100755
  #ifdef USE_LCMS1
  #include <lcms.h>
  #define cmsColorSpaceSignature icColorSpaceSignature
-@@ -120,6 +116,7 @@ namespace {
+@@ -120,6 +117,7 @@ namespace {
    bool swap_margin_x = false;
    bool swap_margin_y = false;
    bool allocLineBuf = false;
@@ -25,7 +33,7 @@ index e8af184f..cf6ddb9a 100755
    ConvertLineFunc convertLineOdd;
    ConvertLineFunc convertLineEven;
    ConvertCSpaceFunc convertCSpace;
-@@ -191,6 +188,10 @@ namespace {
+@@ -191,6 +189,10 @@ namespace {
    int renderingIntent = INTENT_PERCEPTUAL;
    int cm_disabled = 0;
    cm_calibration_t cm_calibrate;
@@ -36,7 +44,7 @@ index e8af184f..cf6ddb9a 100755
  }
  
  cmsCIExyY adobergb_wp()
-@@ -382,8 +383,28 @@ static void parseOpts(int argc, char **argv)
+@@ -382,8 +384,28 @@ static void parseOpts(int argc, char **argv)
  	FM_NO, FM_FALSE, FM_TRUE
        } flippedMargin = FM_NO;
  
@@ -66,7 +74,7 @@ index e8af184f..cf6ddb9a 100755
  	ppd->flip_duplex = 0;
  	backside = attr->value;
        } else if (ppd->flip_duplex) {
-@@ -1521,12 +1542,14 @@ static unsigned char *onebitpixel(unsigned char *src, unsigned char *dst, unsign
+@@ -1521,12 +1543,14 @@ static unsigned char *onebitpixel(unsigned char *src, unsigned char *dst, unsign
        unsigned char tem=0;
        for(int k=0;k<8;k++){
          cnt++;
@@ -82,7 +90,7 @@ index e8af184f..cf6ddb9a 100755
        }
        *dst=tem;
        dst+=1;
-@@ -1551,7 +1574,7 @@ static unsigned char *removeAlpha(unsigned char *src, unsigned char *dst, unsign
+@@ -1551,7 +1575,7 @@ static unsigned char *removeAlpha(unsigned char *src, unsigned char *dst, unsign
    return temp;
  }
  
@@ -91,7 +99,7 @@ index e8af184f..cf6ddb9a 100755
    int pageNo)
  {
    ConvertLineFunc convertLine;
-@@ -1559,36 +1582,38 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1559,36 +1583,38 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
    unsigned char *dp;
    unsigned int rowsize;
  
@@ -150,7 +158,7 @@ index e8af184f..cf6ddb9a 100755
        cupsImageRGBToWhite(newdata,graydata,pixel_count);
        colordata=graydata;
        rowsize=header.cupsWidth;
-@@ -1602,10 +1627,12 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1602,10 +1628,12 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
     case CUPS_CSPACE_CMY:
     case CUPS_CSPACE_RGBW:
     default:
@@ -167,7 +175,7 @@ index e8af184f..cf6ddb9a 100755
     rowsize=header.cupsWidth*3;
     colordata=newdata;
       break;
-@@ -1645,11 +1672,18 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
+@@ -1645,11 +1673,18 @@ static void writePageImage(cups_raster_t *raster, poppler::document *doc,
        }
      }
    }
@@ -188,7 +196,7 @@ index e8af184f..cf6ddb9a 100755
    cups_raster_t *raster)
  {
    int rotate = 0;
-@@ -1661,28 +1695,21 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1661,28 +1696,21 @@ static void outPage(poppler::document *doc, int pageNo,
    int imageable_area_fit = 0;
    int i;
  
@@ -226,7 +234,35 @@ index e8af184f..cf6ddb9a 100755
    if (l < 0) l = -l;
    if (rotate == 90 || rotate == 270)
      header.PageSize[0] = (unsigned)l;
-@@ -1882,6 +1909,9 @@ static void outPage(poppler::document *doc, int pageNo,
+@@ -1872,16 +1900,33 @@ static void outPage(poppler::document *doc, int pageNo,
+       header.ImagingBoundingBox[i] = 0;
+     }
+ 
+-  bytesPerLine = header.cupsBytesPerLine = (header.cupsBitsPerPixel *
+-    header.cupsWidth + 7) / 8;
+-  if (header.cupsColorOrder == CUPS_ORDER_BANDED) {
+-    header.cupsBytesPerLine *= header.cupsNumColors;
++  unsigned long long bpl_check = (unsigned long long)header.cupsBitsPerPixel *
++    header.cupsWidth + 7;
++  if (bpl_check > UINT_MAX)
++  {
++    fputs("ERROR: Integer overflow in cupsBytesPerLine calculation.\n", stderr);
++    exit(1);
++  }
++  bytesPerLine = header.cupsBytesPerLine = (unsigned)((bpl_check) / 8);
++  if (header.cupsColorOrder == CUPS_ORDER_BANDED)
++  {
++    unsigned long long bpl_banded = (unsigned long long)header.cupsBytesPerLine *
++      header.cupsNumColors;
++    if (bpl_banded > UINT_MAX)
++    {
++      fputs("ERROR: Integer overflow in cupsBytesPerLine (BANDED mode).\n", stderr);
++      exit(1);
++    }
++    header.cupsBytesPerLine = (unsigned)bpl_banded;
+   }
+   if (!cupsRasterWriteHeader2(raster,&header)) {
+       fprintf(stderr, "ERROR: Can't write page %d header\n",pageNo );
        exit(1);
    }
  
@@ -236,7 +272,7 @@ index e8af184f..cf6ddb9a 100755
    /* write page image */
    writePageImage(raster,doc,pageNo);
  }
-@@ -1941,6 +1971,7 @@ static void setPopplerColorProfile()
+@@ -1941,6 +1986,7 @@ static void setPopplerColorProfile()
      break;
    case CUPS_CSPACE_SW:
      colorProfile = sgray_profile();
@@ -244,7 +280,7 @@ index e8af184f..cf6ddb9a 100755
      break;
    case CUPS_CSPACE_RGB:
    case CUPS_CSPACE_K:
-@@ -1972,7 +2003,9 @@ static void setPopplerColorProfile()
+@@ -1972,7 +2018,9 @@ static void setPopplerColorProfile()
  }
  
  int main(int argc, char *argv[]) {
@@ -255,7 +291,7 @@ index e8af184f..cf6ddb9a 100755
    int i;
    int npages=0;
    cups_raster_t *raster;
-@@ -2002,7 +2035,20 @@ int main(int argc, char *argv[]) {
+@@ -2002,7 +2050,20 @@ int main(int argc, char *argv[]) {
        }
      }
      close(fd);
@@ -277,7 +313,7 @@ index e8af184f..cf6ddb9a 100755
      /* remove name */
      unlink(name);
    } else {
-@@ -2015,14 +2061,21 @@ int main(int argc, char *argv[]) {
+@@ -2015,14 +2076,21 @@ int main(int argc, char *argv[]) {
      }
      parsePDFTOPDFComment(fp);
      fclose(fp);
@@ -301,7 +337,7 @@ index e8af184f..cf6ddb9a 100755
    header.Collate = deviceCollate ? CUPS_TRUE : CUPS_FALSE;
    /* fixed other values that pdftopdf handles */
    header.MirrorPrint = CUPS_FALSE;
-@@ -2127,7 +2180,13 @@ int main(int argc, char *argv[]) {
+@@ -2127,7 +2195,13 @@ int main(int argc, char *argv[]) {
  
    cupsRasterClose(raster);
  
@@ -316,7 +352,7 @@ index e8af184f..cf6ddb9a 100755
    if (ppd != NULL) {
      ppdClose(ppd);
    }
-@@ -2143,30 +2202,3 @@ int main(int argc, char *argv[]) {
+@@ -2143,30 +2217,3 @@ int main(int argc, char *argv[]) {
  
    return exitCode;
  }
