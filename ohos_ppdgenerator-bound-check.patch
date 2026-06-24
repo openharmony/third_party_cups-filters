@@ -1,0 +1,13 @@
+diff --git a/cupsfilters/ppdgenerator.c b/cupsfilters/ppdgenerator.c
+index 32f94c62..ff0ded2c 100644
+--- a/cupsfilters/ppdgenerator.c
++++ b/cupsfilters/ppdgenerator.c
+@@ -1871,6 +1871,8 @@ ppdCreateFromIPP2(char         *buffer,          /* I - Filename buffer */
+ 
+     if (maxlen > (int)(sizeof(pattern) - 1))
+       maxlen = (int)sizeof(pattern) - 1;
++    if (maxlen < 0)
++        maxlen = 0;
+ 
+     if (!repertoire || !strcmp(repertoire, "iana_us-ascii_digits"))
+       memset(pattern, '1', (size_t)maxlen);
