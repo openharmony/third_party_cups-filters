@@ -1,0 +1,13 @@
+diff --git a/cupsfilters/image-pnm.c b/cupsfilters/image-pnm.c
+index e4194c73..aab47fff 100644
+--- a/cupsfilters/image-pnm.c
++++ b/cupsfilters/image-pnm.c
+@@ -149,7 +149,7 @@ _cupsImageReadPNM(
+ 
+   bpp = cupsImageGetDepth(img);
+ 
+-  if ((in = malloc(img->xsize * 3)) == NULL)
++  if ((in = calloc(img->xsize, 3)) == NULL)
+   {
+     fputs("DEBUG: Unable to allocate memory!\n", stderr);
+     fclose(fp);

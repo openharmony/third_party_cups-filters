@@ -51,6 +51,8 @@ def do_patch(target_dir):
         "ohos_cupsfilters.patch",
         "ohos_foomatic-rip.patch",
         "ohos_imagetopdf.patch",
+        "ohos_pnm-calloc-init.patch",
+        "ohos_ppdgenerator-bound-check.patch",
     ]
 
     for patch in patch_file:
