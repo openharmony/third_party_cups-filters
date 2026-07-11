@@ -125,7 +125,7 @@ ohos_shared_library("cupsfilters") {
     "cups:cups",
     "libjpeg-turbo:turbojpeg",
     "libpng:libpng",
-    "zlib:libz",
+    "zlib:shared_libz",
   ]
 
   install_enable = true
