@@ -1,0 +1,12 @@
+diff --git a/filter/pdftopdf/qpdf_xobject.cc b/filter/pdftopdf/qpdf_xobject.cc
+index cc33f43a..06ad9e30 100644
+--- a/filter/pdftopdf/qpdf_xobject.cc
++++ b/filter/pdftopdf/qpdf_xobject.cc
+@@ -31,6 +31,7 @@ void CombineFromContents_Provider::provideStreamData(int objid, int generation,
+   const int clen=contents.size();
+   for (int iA=0;iA<clen;iA++) {
+     contents[iA].pipeStreamData(&concat, true, false, false);
++    concat << "\n";
+   }
+   concat.manualFinish();
+ }

@@ -31,7 +31,6 @@ void CombineFromContents_Provider::provideStreamData(int objid, int generation, 
   const int clen=contents.size();
   for (int iA=0;iA<clen;iA++) {
     contents[iA].pipeStreamData(&concat, true, false, false);
-    concat << "\n";
   }
   concat.manualFinish();
 }
