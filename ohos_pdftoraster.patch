@@ -103,7 +103,8 @@ index e8af184f..2cfbf883 100644
 +        tem <<=1;
 +        if (j + k < width) {
            unsigned int var=*src;
-           if(var > dither1[i & 0xf][(j+k) & 0xf]){
+-          if(var > dither1[i & 0xf][(j+k) & 0xf]){
++          if(var > dither1[i & 0xf][(j+k) & 0xf] || var == 0xff){
              tem |= 0x1;
            }
            src +=1;
