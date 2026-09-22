@@ -18,7 +18,7 @@ diff --git a/filter/pdftopdf/pdftopdf_processor.cc b/filter/pdftopdf/pdftopdf_pr
 +    if (iA >= (int)shuffle.size() || shuffle[iA] <0 || shuffle[iA] >= numOrigPages) {
        continue;
      }
-
+ 
 diff --git a/filter/pdftopdf/pdftopdf.cc b/filter/pdftopdf/pdftopdf.cc
 --- a/filter/pdftopdf/pdftopdf.cc	(revision 6101e30e94d791e9f41858fa531c7d365bced64b)
 +++ b/filter/pdftopdf/pdftopdf.cc	(date 1790058784704)
@@ -31,4 +31,4 @@ diff --git a/filter/pdftopdf/pdftopdf.cc b/filter/pdftopdf/pdftopdf.cc
        error("Unsupported booklet-signature value, using booklet-signature=-1 (all)!",val);
        param.bookSignature=-1;
      }
-
+ 
