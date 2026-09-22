@@ -54,6 +54,7 @@ def do_patch(target_dir):
         "ohos_pnm-calloc-init.patch",
         "ohos_ppdgenerator-bound-check.patch",
         "ohos_pdftopdf-print-effect-fix.patch",
+        "ohos_image-zoom-bound-check.patch",  # Fix heap out-of-bounds read in zoom_bilinear()
     ]
 
     for patch in patch_file:
