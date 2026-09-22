@@ -31,3 +31,4 @@ diff --git a/filter/pdftopdf/pdftopdf.cc b/filter/pdftopdf/pdftopdf.cc
        error("Unsupported booklet-signature value, using booklet-signature=-1 (all)!",val);
        param.bookSignature=-1;
      }
+
