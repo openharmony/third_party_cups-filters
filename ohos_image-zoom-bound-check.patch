@@ -1,0 +1,13 @@
+diff --git a/cupsfilters/image-zoom.c b/cupsfilters/image-zoom.c
+index 5896665f..98d4850c 100644
+--- a/cupsfilters/image-zoom.c
++++ b/cupsfilters/image-zoom.c
+@@ -190,7 +190,7 @@ _cupsImageZoomNew(
+     return (NULL);
+   }
+ 
+-  if ((z->in = (cups_ib_t *)malloc(z->width * z->depth)) == NULL)
++  if ((z->in = (cups_ib_t *)calloc((z->width + 1), z->depth)) == NULL)
+   {
+     free(z->rows[0]);
+     free(z->rows[1]);
