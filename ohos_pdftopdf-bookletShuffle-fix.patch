@@ -1,0 +1,34 @@
+diff --git a/filter/pdftopdf/pdftopdf_processor.cc b/filter/pdftopdf/pdftopdf_processor.cc
+--- a/filter/pdftopdf/pdftopdf_processor.cc	(revision 6101e30e94d791e9f41858fa531c7d365bced64b)
++++ b/filter/pdftopdf/pdftopdf_processor.cc	(date 1790058784711)
+@@ -321,7 +321,7 @@
+   NupPageEdit pgedit;
+   for (int iA=0;iA<numPages;iA++) {
+     std::shared_ptr<PDFTOPDF_PageHandle> page;
+-    if (shuffle[iA] >= numOrigPages)
++    if (iA >= (int)shuffle.size() || shuffle[iA] <0 || shuffle[iA] >= numOrigPages)
+       // add empty page as filler
+       page=proc.new_page(param.page.width,param.page.height);
+     else
+@@ -348,7 +348,7 @@
+       curpage=proc.new_page(param.page.width,param.page.height);
+       outputpage++;
+     }
+-    if (shuffle[iA]>=numOrigPages) {
++    if (iA >= (int)shuffle.size() || shuffle[iA] <0 || shuffle[iA] >= numOrigPages) {
+       continue;
+     }
+ 
+diff --git a/filter/pdftopdf/pdftopdf.cc b/filter/pdftopdf/pdftopdf.cc
+--- a/filter/pdftopdf/pdftopdf.cc	(revision 6101e30e94d791e9f41858fa531c7d365bced64b)
++++ b/filter/pdftopdf/pdftopdf.cc	(date 1790058784704)
+@@ -574,7 +574,7 @@
+   }
+   param.bookSignature=-1;
+   if (optGetInt("booklet-signature",num_options,options,&param.bookSignature)) {
+-    if (param.bookSignature==0) {
++    if (param.bookSignature==0 || (param.bookSignature>0 && (param.bookSignature%4)!=0)) {
+       error("Unsupported booklet-signature value, using booklet-signature=-1 (all)!",val);
+       param.bookSignature=-1;
+     }
+ 

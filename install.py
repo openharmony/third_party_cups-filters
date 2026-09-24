@@ -55,6 +55,7 @@ def do_patch(target_dir):
         "ohos_ppdgenerator-bound-check.patch",
         "ohos_pdftopdf-print-effect-fix.patch",
         "ohos_image-zoom-bound-check.patch",  # Fix heap out-of-bounds read in zoom_bilinear()
+        "ohos_pdftopdf-bookletShuffle-fix.patch"
     ]
 
     for patch in patch_file:
